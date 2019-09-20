@@ -1,4 +1,6 @@
 import { createGlobalStyle } from "styled-components";
+const baseWidth = 375;
+const baseFontSize = (document.documentElement.getBoundingClientRect().width / baseWidth * 10) / 10000 * 10000;
 export default createGlobalStyle`
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -42,5 +44,11 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+html,body{
+	/**
+	rem布局=》1px === 0.1rem
+	 */
+	font-size:${baseFontSize}px;
 }
 `;
