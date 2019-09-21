@@ -10,11 +10,10 @@ const Home = props => {
             <span>我的音乐</span>
             <span className="iconfont iconsearch"></span>
         </TopBar>
-        <div>
-            <Switch>
-                {renderRoutes(route.routes)}
-            </Switch>
-        </div>
+        <Switch>
+            {renderRoutes(route.routes)}
+        </Switch>
     </div>
 }
-export default Home;
+//React.memo props 发生变化的是否更新
+export default React.memo(Home);
