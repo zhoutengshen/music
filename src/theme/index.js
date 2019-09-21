@@ -1,28 +1,10 @@
 
 export const defalutTheme = {
-    "breakpoints": {
-        "keys": [
-            "xs",
-            "sm",
-            "md",
-            "lg",
-            "xl"
-        ],
-        "values": {
-            "xs": 0,
-            "sm": 600,
-            "md": 960,
-            "lg": 1280,
-            "xl": 1920
-        }
-    },
-    "direction": "ltr",
     "palette": {
         "common": {
             "black": "#000",
             "white": "#fff"
         },
-        "type": "light",
         "primary": {
             "main": "#1976d2",
             "light": "rgb(71, 145, 219)",
@@ -41,31 +23,12 @@ export const defalutTheme = {
             "dark": "#d32f2f",
             "contrastText": "#fff"
         },
-        "grey": {
-            "50": "#fafafa",
-            "100": "#f5f5f5",
-            "200": "#eeeeee",
-            "300": "#e0e0e0",
-            "400": "#bdbdbd",
-            "500": "#9e9e9e",
-            "600": "#757575",
-            "700": "#616161",
-            "800": "#424242",
-            "900": "#212121",
-            "A100": "#d5d5d5",
-            "A200": "#aaaaaa",
-            "A400": "#303030",
-            "A700": "#616161"
-        },
-        "contrastThreshold": 3,
-        "tonalOffset": 0.2,
         "text": {
             "primary": "rgba(0, 0, 0, 0.87)",
             "secondary": "rgba(0, 0, 0, 0.54)",
             "disabled": "rgba(0, 0, 0, 0.38)",
             "hint": "rgba(0, 0, 0, 0.38)"
         },
-        "divider": "rgba(0, 0, 0, 0.12)",
         "background": {
             "paper": "#fff",
             "default": "#fff",
@@ -211,7 +174,7 @@ export const defalutTheme = {
         }
     },
     "shape": {
-        "borderRadius": 4
+        "borderRadius": '.4rem'
     },
     "transitions": {
         "easing": {
@@ -240,7 +203,8 @@ export const defalutTheme = {
     },
     "nprogress": {
         "color": "#000"
-    }
+    },
+
 }
 export const daHongTheme = {
 

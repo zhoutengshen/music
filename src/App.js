@@ -10,24 +10,28 @@ import themeHoc from "hoc/themeHoc";
 import store from "stores";
 import { reComputedClientWidth } from "utils";
 const WithThemeApp = themeHoc((props) => {
-  const { theme } = props;
-  const routes = renderRoutes(routesConfig);
+  const { theme, children } = props;
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <Switch>
-          {routes}
-        </Switch>
-      </Router>
+      {
+        children
+      }
     </ThemeProvider>
   );
 })
 const App = () => {
   reComputedClientWidth();
+  const routes = renderRoutes(routesConfig);
   return (
     <ReduxProvider store={store}>
       <ResetCss />
-      <WithThemeApp></WithThemeApp>
+      <WithThemeApp>
+        <Router>
+          <Switch>
+            {routes}
+          </Switch>
+        </Router>
+      </WithThemeApp>
     </ReduxProvider>
   );
 }
