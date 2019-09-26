@@ -17,12 +17,17 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root">
-    <!-- SSR_SLOT -->
+    <!--SSR_SLOT-->
   </div>
 </body>
 <script>
   window.onload = () => {
-    document.documentElement.style.fontSize = ((document.documentElement.getBoundingClientRect().width / 375 * 10) / 10000 * 10000) + 'px';
+    window.onresize = () => {
+      const dcm = document.documentElement;
+      const baseWidth = 375;
+      const baseFontSize = (document.documentElement.getBoundingClientRect().width / baseWidth * 10) / 10000 * 10000;
+      dcm.style.fontSize = baseFontSize + 'px';
+    }
   }
 </script>
 

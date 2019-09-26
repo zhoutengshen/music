@@ -18,7 +18,7 @@ app.use((req, resp, next) => {
     const styleTags = sheet.getStyleTags();
     const htmlTemplate = fs.readFileSync(resolve("../../public/index.html")).toString();
     let htmlStr = htmlTemplate.replace(/[\n\r\r\n]/g, "");
-    htmlStr = htmlStr.replace("<!-- SSR_SLOT -->", appStr);
+    htmlStr = htmlStr.replace("<!--SSR_SLOT-->", appStr);
     htmlStr = htmlStr.replace("<!--SSR_STYLE-->", styleTags);
     resp.send(htmlStr);
     next();
