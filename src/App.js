@@ -1,9 +1,8 @@
 import React from 'react';
 import { ThemeProvider } from "styled-components";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { renderRoutes } from "react-router-config";
 import { Provider as ReduxProvider } from "react-redux";
-
 import routesConfig from "routes";
 import ResetCss from "style";
 import themeHoc from "hoc/themeHoc";
@@ -21,15 +20,12 @@ const WithThemeApp = themeHoc((props) => {
 })
 const App = () => {
   reComputedClientWidth();
-  const routes = renderRoutes(routesConfig);
   return (
     <ReduxProvider store={store}>
       <ResetCss />
       <WithThemeApp>
         <Router>
-          <Switch>
-            {routes}
-          </Switch>
+          {renderRoutes(routesConfig)}
         </Router>
       </WithThemeApp>
     </ReduxProvider>

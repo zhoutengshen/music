@@ -19,7 +19,7 @@ export const TopBar = styled.div`
 export const Tab = styled.nav`
     display:flex;
     width:100%;
-    background:${({ theme }) => theme.palette['primary'].main}
+    background:${({ theme }) => theme.palette['primary'].main};
     flex-direction:row;
     justify-content:space-around;
 `;

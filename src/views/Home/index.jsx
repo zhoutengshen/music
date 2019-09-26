@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { renderRoutes } from "react-router-config";
 import { TopBar, Tab, TabItem } from "views/Home/style";
 const Home = props => {
@@ -15,9 +15,9 @@ const Home = props => {
             <TabItem><NavLink activeClassName="selected" to="/singers">歌手</NavLink></TabItem>
             <TabItem><NavLink activeClassName="selected" to="/rank">排行榜</NavLink></TabItem>
         </Tab>
-        <Switch>
-            {renderRoutes(route.routes)}
-        </Switch>
+        {
+            renderRoutes(route.routes)
+        }
     </div>
 }
 //React.memo props 发生变化的是否更新

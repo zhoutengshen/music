@@ -1,6 +1,5 @@
 import React from "react";
 import Swiper from "swiper";
-import "swiper/css/swiper.min.css";
 import propTypes from "prop-types";
 import { SliderContainer } from "./style";
 class Slider extends React.Component {
@@ -21,9 +20,7 @@ class Slider extends React.Component {
             },
         });
     }
-    constructor(props) {
-        super(props);
-    }
+
     render() {
         const { imgUrls } = this.props;
         return (
