@@ -74,10 +74,11 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "build-serve": "cross-env NODE_ENV=development webpack --config config/webpackServerSideRenderDev.config.js",
-    "serve": "nodemon ./server/index.js"
+    "start:client": "node scripts/start.js",
+    "build:client": "node scripts/build.js",
+    "build:serve": "cross-env NODE_ENV=production webpack --config config/webpackServer.config.js",
+    "build": "npm run build:client && npm run build:serve",
+    "start:serve": "cross-env NODE_ENV=development nodemon ./server/index.js"
   },
   "eslintConfig": {
     "extends": "react-app"

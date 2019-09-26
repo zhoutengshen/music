@@ -193,7 +193,7 @@ module.exports = function (webpackEnv) {
       // are used on the same page.
       jsonpFunction: `webpackJsonp${appPackageJson.name}`,
     },
-    
+
     optimization: {
       minimize: isEnvProduction,
       minimizer: [
@@ -513,7 +513,7 @@ module.exports = function (webpackEnv) {
           isEnvProduction
             ? {
               minify: {
-                removeComments: true,
+                removeComments: false,
                 collapseWhitespace: true,
                 removeRedundantAttributes: true,
                 useShortDoctype: true,

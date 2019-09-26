@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from "styled-components";
-import { StaticRouter as Router } from "react-router-dom";
+import { StaticRouter } from "react-router-dom";
 import { StyleSheetManager } from 'styled-components'
 import { renderRoutes } from "react-router-config";
 import { Provider as ReduxProvider } from "react-redux";
@@ -18,18 +18,17 @@ const WithThemeApp = themeHoc((props) => {
         </ThemeProvider>
     );
 });
-const App = ({ sheet = {}, store = defaultStore }, location = "/") => {
+const App = ({ sheet = {}, store = defaultStore, location = "/", routerContext = {} }) => {
     return (<StyleSheetManager sheet={sheet.instance}>
         <ReduxProvider store={store}>
             <ResetCss />
             <WithThemeApp>
-                <Router location={location}>
+                <StaticRouter location={location} context={routerContext}>
                     {
                         renderRoutes(routesConfig)
                     }
-                </Router>
+                </StaticRouter>
             </WithThemeApp>
-
         </ReduxProvider >
     </StyleSheetManager >
     );

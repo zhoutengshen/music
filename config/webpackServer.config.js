@@ -9,8 +9,9 @@ module.exports = {
         server: resolve("../src/ServerEnter.js")
     },
     output: {
+        ...webpackConfig.output,
         libraryTarget: "commonjs2",
-        filename: "[name].bundle.js"
+        filename: "server.bundle.js"
     },
     target: "node",
     resolve: {
