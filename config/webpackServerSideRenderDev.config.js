@@ -6,7 +6,7 @@ const webpackConfig = webpackConfigFactory(evn);
 module.exports = {
     mode: evn,
     entry: {
-        server: resolve("../src/server/SSREnter.js")
+        server: resolve("../src/ServerEnter.js")
     },
     output: {
         libraryTarget: "commonjs2",
