@@ -40,7 +40,7 @@ const ItemWraper = styled.div`
         font-size:1.2rem;
         line-height:1.5rem;
         height:3rem;
-        padding:0 .4rem;
+        padding:0.5rem .4rem;
         color:${({ theme }) => theme.palette.text.primary};
     }
 `;
