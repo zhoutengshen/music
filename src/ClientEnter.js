@@ -2,33 +2,23 @@ import React from 'react';
 import { ThemeProvider } from "styled-components";
 import { BrowserRouter as Router } from "react-router-dom";
 import { renderRoutes } from "react-router-config";
-import { Provider as ReduxProvider } from "react-redux";
+import { hot } from "react-hot-loader";
 import routesConfig from "routes";
 import ResetCss from "style";
 import themeHoc from "hoc/themeHoc";
-import store from "stores";
 import { reComputedClientWidth } from "utils";
 const WithThemeApp = themeHoc((props) => {
-  const { theme, children } = props;
-  return (
-    <ThemeProvider theme={theme}>
-      {
-        children
-      }
-    </ThemeProvider>
-  );
-})
-const App = () => {
   reComputedClientWidth();
+  const { theme } = props;
   return (
-    <ReduxProvider store={store}>
+    <div>
       <ResetCss />
-      <WithThemeApp>
+      <ThemeProvider theme={theme}>
         <Router>
           {renderRoutes(routesConfig)}
         </Router>
-      </WithThemeApp>
-    </ReduxProvider>
+      </ThemeProvider>
+    </div>
   );
-}
-export default App;
+})
+export default hot(module)(WithThemeApp);
