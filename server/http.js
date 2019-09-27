@@ -1,3 +1,4 @@
+// 对原生htpp简单封装
 const http = require("http");
 module.exports.get = (url, options) => {
     return new Promise((resolve, reject) => {
