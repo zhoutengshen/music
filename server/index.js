@@ -3,14 +3,16 @@ const reactDOMServer = require("react-dom/server");
 const { ServerStyleSheet } = require("styled-components");
 const { isDev } = require("../utils/env");
 const fs = require("fs");
+const proxy = require("express-http-proxy");
 const path = require("path");
-const sheet = new ServerStyleSheet();
+const http = require("./http");
+const getBundle = require("./serverBundleHotLoad")();
 const resolve = targetPath => path.resolve(__dirname, targetPath);
 const app = express();
 app.use("/api", (req, resp, next) => {
     console.log("API 请求");
 });
-if (isDev) {
+if (!isDev) {
     const serverBundle = require("../build/server.bundle.js").default;
     const htmlTemplate = fs.readFileSync(resolve("../build/index.html"), "utf-8");
     //拦截/static 前缀的文件
@@ -18,6 +20,7 @@ if (isDev) {
     //拦截 /前缀的静态文件
     app.use(express.static(resolve("../build")));
     app.use((req, resp, next) => {
+        const sheet = new ServerStyleSheet();
         const location = {
             pathname: req.url
         };
@@ -26,7 +29,6 @@ if (isDev) {
             sheet, location, routerContext
         });
         const appStr = reactDOMServer.renderToString(appBundle);
-        console.log(routerContext);
         const styleTags = sheet.getStyleTags();
         let htmlStr = htmlTemplate.replace(/[\n\r\r\n]/g, "");
         htmlStr = htmlStr.replace("<!--app-->", appStr);
@@ -36,11 +38,31 @@ if (isDev) {
     });
 } else {
     //代理到webpack-dev-server
-    app.use("/static", (req, resp, next) => {
-        next();
-    })
+    app.use("/static", proxy("localhost:3000"));
+    app.use("/favicon.ico", proxy("localhost:3000"));
+    app.use("/manifest.json", proxy("localhost:3000"));
     app.use((req, resp, next) => {
-        next();
+        http.get("http://localhost:3000/index.html").then(htmlTemplate => {
+            const sheet = new ServerStyleSheet();
+            const serverBundle = getBundle().default;
+            const location = {
+                pathname: req.url
+            };
+            console.log(req.url);
+            const routerContext = {};
+            const appBundle = serverBundle({
+                sheet, location, routerContext
+            });
+            const appStr = reactDOMServer.renderToString(appBundle);
+            const styleTags = sheet.getStyleTags();
+            let htmlStr = htmlTemplate.replace(/[\n\r\r\n]/g, "");
+            htmlStr = htmlStr.replace("<!--app-->", appStr);
+            htmlStr = htmlStr.replace("<!--style-->", styleTags);
+            resp.send(htmlStr);
+        }).catch(e => {
+            console.log(e);
+            resp.send(e);
+        })
     });
 }
 
