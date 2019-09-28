@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.6.0",
+    "@better-scroll/core": "^2.0.0-beta.2",
     "@svgr/webpack": "4.3.2",
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^2.2.0",
@@ -76,7 +77,7 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "start:client": "node scripts/start.js",
+    "start:client": "cross-env node scripts/start.js",
     "build:client": "node scripts/build.js",
     "build:serve": "cross-env NODE_ENV=production webpack --config config/webpackServer.config.js",
     "build": "npm run build:client && npm run build:serve",

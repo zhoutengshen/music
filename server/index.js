@@ -10,6 +10,11 @@ const http = require("./http");
 const getBundle = require("./serverBundleHotLoad")();
 const resolve = targetPath => path.resolve(__dirname, targetPath);
 const app = express();
+//loger
+app.all("*", (req, resp, next) => {
+    console.log(req.url);
+    next();
+});
 //拦截所有api请求
 app.use("/api", (req, resp, next) => {
     console.log("API 请求");
@@ -38,17 +43,18 @@ if (!isDev) {
         //服务端渲染
         const appStr = reactDOMServer.renderToString(appBundle);
         const styleTags = sheet.getStyleTags();
-        let htmlStr = htmlTemplate.replace(/[\n\r\r\n]/g, "");
-        htmlStr = htmlStr.replace("<!--app-->", appStr);
+        let htmlStr = htmlStr.replace("<!--app-->", appStr);
         htmlStr = htmlStr.replace("<!--style-->", styleTags);
         resp.send(htmlStr);
         next();
     });
 } else {//开发环境
-    //代理到webpack-dev-server
-    app.use("/static", proxy("localhost:3000"));
-    app.use("/favicon.ico", proxy("localhost:3000"));
-    app.use("/manifest.json", proxy("localhost:3000"));
+    //代理静态资源，和热更新请求到webpack-dev-server
+    app.use(["/static", "/manifest.json", "/sockjs-node"], proxy("http://localhost:3000", {
+        proxyReqPathResolver: req => {
+            return req.originalUrl;
+        }
+    }));
     app.use((req, resp, next) => {
         http.get("http://localhost:3000/index.html").then(htmlTemplate => {
             const sheet = new ServerStyleSheet();
@@ -56,7 +62,6 @@ if (!isDev) {
             const location = {
                 pathname: req.url
             };
-            console.log(req.url);
             const routerContext = {};
             const appBundle = serverBundle({
                 sheet, location, routerContext

@@ -18,7 +18,7 @@ const moduleFactory = () => {
 }
 module.exports = () => {
     //指定当前打包环境为开发环境
-    process.env.NODE_ENV = "production";
+    process.env.NODE_ENV = "development";
     const ssrWebpckConfig = require("../config/webpackServer.config");
     const compiler = webpack({ ...ssrWebpckConfig, watch: true });
     const fs = new memoryFs();
@@ -32,7 +32,7 @@ module.exports = () => {
         if (err) {
             console.log(err);
         }
-        const filepath = ssrWebpckConfig.output.path || "dist";
+        const filepath = ssrWebpckConfig.output.path || resolve("../", "dist");
         const filename = ssrWebpckConfig.output.filename;
         //获取到内存里面的js文件的字符串
         const bundleJsStr = fs.readFileSync(resolve(filepath, filename), "utf-8");

@@ -23,12 +23,10 @@
 </body>
 <script>
   window.onload = () => {
-    window.onresize = () => {
-      const dcm = document.documentElement;
-      const baseWidth = 375;
-      const baseFontSize = (document.documentElement.getBoundingClientRect().width / baseWidth * 10) / 10000 * 10000;
-      dcm.style.fontSize = baseFontSize + 'px';
-    }
+    const dcm = document.documentElement;
+    const baseWidth = 375;
+    const baseFontSize = (document.documentElement.getBoundingClientRect().width / baseWidth * 10) / 10000 * 10000;
+    dcm.style.fontSize = baseFontSize + 'px';
   }
 </script>
 
