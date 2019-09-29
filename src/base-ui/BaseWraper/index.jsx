@@ -1,8 +1,8 @@
 import React, { cloneElement } from "react";
 
-export default ({ children, render = <div />, ...restProps }) => {
+export default ({ render = <div />, ...restProps }) => {
     const newEl = cloneElement(render, {
-        children
+        ...restProps
     });
     return newEl;
 }

@@ -4,8 +4,7 @@ import React from "react";
 import propTypes from "prop-types";
 import betterScroll from "@better-scroll/core";
 import { scrollProvider as ScrollPlugins } from "./context";//Provider-Consumer组件设计模式
-import Pulldown from "./Pulldown";
-
+import { pluginCollector } from "./utils";
 const options = {
     startX: 0,//x轴初始滚动方向
     startY: 0,//y轴初始滚动方向
@@ -126,16 +125,17 @@ class BSroll extends React.Component {
     //详细请看 https://zh-hans.reactjs.org/docs/context.html#contextprovider 注意事项
     state = {
         bSroll: {},
-        betterScroll: {}
+        betterScroll: betterScroll
     }
     componentDidMount() {
         const { srcollDom, props } = this;
+        const ha = pluginCollector(props.children);
+        console.log(ha)
         //bSroll 这里会产生不必要的性能损耗（TODO:）,这里是为了解决Provider-Consumer 模式下不能获取better-scroll的实例
         this.setState({
             bSroll: new betterScroll(srcollDom, {
                 ...props
-            }),
-            betterScroll: betterScroll
+            })
         });
         this.initMethods();
         this.initHooks();
@@ -160,22 +160,22 @@ class BSroll extends React.Component {
             }
         });
     }
-
     componentWillUnmount() {
-        this.bSroll.destroy();
+        if (this.bSroll) {
+            this.bSroll.destroy();
+        }
     }
     render() {
         const { children, height, className, style } = this.props;
         const { bSroll, betterScroll } = this.state;
+        window.last = betterScroll;
         return (
-
             <div style={{ height: height, ...style, overflow: "hidden" }} className={["scroll-wrapper", className]} ref={el => this.srcollDom = el} >
                 <div className="scroll-content">
                     {/*  注意事项 详细请看 https://zh-hans.reactjs.org/docs/context.html#contextprovider 注意事项 */}
-                    <ScrollPlugins value={{ BSroll: betterScroll, bSrollInstance: bSroll }}>
-                        <Pulldown></Pulldown>
+                    <ScrollPlugins value={{ BScroll: betterScroll, bSrollInstance: bSroll }}>
+                        {children}
                     </ScrollPlugins>
-                    {children}
                 </div>
             </div>
         );
