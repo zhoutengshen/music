@@ -5,17 +5,17 @@ import Srcoll from "base-ui/Scroll";
 import RecommendWraper from "./style";
 import { bannerList, recommends } from "./mock";
 
-
 const Recommend = props => {
     return (
         <RecommendWraper>
-            <Srcoll height="50rem">
+            <Srcoll height="100%" probeType={2}>
                 <div className="scroll-content">
                     <Slider imgUrls={bannerList}></Slider>
                     <RecommendList recommends={recommends}></RecommendList>
                 </div>
+
             </Srcoll>
-        </RecommendWraper>
+        </RecommendWraper >
     );
 
 }

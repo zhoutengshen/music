@@ -41,6 +41,7 @@ const ItemWraper = styled.div`
         line-height:1.5rem;
         height:3rem;
         padding:0.5rem .4rem;
+        overflow:hidden;
         color:${({ theme }) => theme.palette.text.primary};
     }
 `;

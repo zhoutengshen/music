@@ -1,6 +1,13 @@
 import styled from "styled-components";
+
+export const Content = styled.div`
+    height:calc(100vh - 8.8rem);
+`;
+
 export const TopBar = styled.div`
     display:flex;
+    box-sizing:border-box;
+    height:4.8rem;
     flex-direction:row;
     justify-content:space-between;
     padding:0.4rem 0.8rem;
@@ -18,6 +25,8 @@ export const TopBar = styled.div`
 
 export const Tab = styled.nav`
     display:flex;
+    box-sizing:border-box;
+    height: 4rem;
     width:100%;
     background:${({ theme }) => theme.palette['primary'].main};
     flex-direction:row;
