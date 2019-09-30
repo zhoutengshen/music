@@ -7,15 +7,20 @@ import { bannerList, recommends } from "./mock";
 import Pulldown from "base-ui/Scroll/Pulldown";
 
 const Recommend = props => {
+    const onPullingDown = () => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(true);
+            }, 1000);
+        });
+    }
     return (
         <RecommendWraper>
             <Srcoll height="100%" probeType={2}>
-                <div className="scroll-content">
-                    <Pulldown></Pulldown>
+                <Pulldown onPullingDown={onPullingDown}>
                     <Slider imgUrls={bannerList}></Slider>
                     <RecommendList recommends={recommends}></RecommendList>
-                </div>
-                <div></div>
+                </Pulldown>
             </Srcoll>
         </RecommendWraper >
     );

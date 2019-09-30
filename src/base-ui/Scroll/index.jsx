@@ -3,8 +3,9 @@
 import React from "react";
 import propTypes from "prop-types";
 import betterScroll from "@better-scroll/core";
+import { initHooks, initMethods } from "./utils";
 import { scrollProvider as ScrollPlugins } from "./context";//Provider-Consumer组件设计模式
-import { pluginCollector } from "./utils";
+
 const options = {
     startX: 0,//x轴初始滚动方向
     startY: 0,//y轴初始滚动方向
@@ -68,7 +69,22 @@ const hooks = [
     "enable",
     "destroy"
 ]
-
+//better-scroll 的bug；；；当使用use注册一个插件且配置项插件配置项为true才会把 插件的函数配置到 better-scroll 实例中。。。。。而文档却是这样说的
+// openPullDown(config: pullDownRefreshOptions = true)
+// 介绍：开启下拉刷新功能。如果实例化 BetterScroll 时 pullDownRefresh 配置项不为 false，则不需要调用该方法。
+// 参数：config: boolean | { threshold: number, stop: number } ，参数为 pullDownRefresh 配置项。默认值为 false。
+const pluginsOptions = {
+    pullDownRefresh: true,
+    mouseWheel: true,
+    observeDom: true,
+    pullUpLoad: true,
+    scrollbar: true,
+    slide: true,
+    wheel: true,
+    zoom: true,
+    nestedScroll: true,
+    infinity: true
+}
 
 class BSroll extends React.Component {
     //组件的默认属性值
@@ -119,7 +135,6 @@ class BSroll extends React.Component {
     }
     constructor(props) {
         super(props);
-        this.initMethods = this.initMethods.bind(this);
     }
     //bSroll 这里会产生不必要的性能损耗（TODO:）,这里是为了解决Provider-Consumer 模式下不能获取better-scroll的实例
     //详细请看 https://zh-hans.reactjs.org/docs/context.html#contextprovider 注意事项
@@ -129,36 +144,17 @@ class BSroll extends React.Component {
     }
     componentDidMount() {
         const { srcollDom, props } = this;
-        const ha = pluginCollector(props.children);
-        console.log(ha)
         //bSroll 这里会产生不必要的性能损耗（TODO:）,这里是为了解决Provider-Consumer 模式下不能获取better-scroll的实例
+        const bSroll = new betterScroll(srcollDom, {
+            ...props,
+            ...pluginsOptions
+        });
         this.setState({
-            bSroll: new betterScroll(srcollDom, {
-                ...props
-            })
+            bSroll: bSroll
         });
-        this.initMethods();
-        this.initHooks();
-    }
-    //初始化事件，把batter-scroll 的事件转移到当前组件
-    initMethods() {
-        methods.forEach(methodName => {
-            this[methodName] = (...params) => {
-                if (this.bSroll[methodName] && this.bSroll[methodName] instanceof Function) {
-                    this.bSroll[methodName](...params);
-                } else {
-                    console.log(methodName + " 方法不存在");
-                }
-            }
-        });
-    }
-    initHooks() {
-        hooks.forEach(hookName => {
-            const name = hookName.slice(0, 1).toUpperCase() + hookName.slice(1);
-            if (this.props['on' + name] && this.props['on' + name] instanceof Function) {
-                this.bSroll.on(hookName, this.props['on' + name]);
-            }
-        });
+        //初始化事件，把batter-scroll 的事件转移到当前组件
+        initMethods(methods, this, bSroll);
+        initHooks(hooks, this, bSroll);
     }
     componentWillUnmount() {
         if (this.bSroll) {
@@ -170,7 +166,7 @@ class BSroll extends React.Component {
         const { bSroll, betterScroll } = this.state;
         window.last = betterScroll;
         return (
-            <div style={{ height: height, ...style, overflow: "hidden" }} className={["scroll-wrapper", className]} ref={el => this.srcollDom = el} >
+            <div style={{ height: height, ...style, overflow: "hidden", position: "relative" }} className={["scroll-wrapper", className]} ref={el => this.srcollDom = el} >
                 <div className="scroll-content">
                     {/*  注意事项 详细请看 https://zh-hans.reactjs.org/docs/context.html#contextprovider 注意事项 */}
                     <ScrollPlugins value={{ BScroll: betterScroll, bSrollInstance: bSroll }}>
