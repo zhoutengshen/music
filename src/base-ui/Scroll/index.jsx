@@ -157,14 +157,11 @@ class BSroll extends React.Component {
         initHooks(hooks, this, bSroll);
     }
     componentWillUnmount() {
-        if (this.bSroll) {
-            this.bSroll.destroy();
-        }
+        this.destroy();
     }
     render() {
         const { children, height, className, style } = this.props;
         const { bSroll, betterScroll } = this.state;
-        window.last = betterScroll;
         return (
             <div style={{ height: height, ...style, overflow: "hidden", position: "relative" }} className={["scroll-wrapper", className]} ref={el => this.srcollDom = el} >
                 <div className="scroll-content">

@@ -1,3 +1,4 @@
+import { ramdomStr } from "utils";
 export const bannerList = [
     "http://p1.music.126.net/gc4jzp-V47fMSe6bscPz-g==/109951164374385649.jpg",
     "http://p1.music.126.net/z8IWO16Jf9CkN8pXBHxdfQ==/109951164374401115.jpg",
@@ -5,7 +6,7 @@ export const bannerList = [
     "http://p1.music.126.net/LPiWGU-gMQU4ZUQJUSNkGA==/109951164375631909.jpg"
 ];
 
-export const recommends = [
+export const tsts = [
     {
         id: 1,
         picUrl: "https://p2.music.126.net/b9diiSRYH0bRIzRTuVAFxg==/109951164375925444.jpg?param=300x300",
@@ -183,3 +184,8 @@ export const recommends = [
         count: 0,
     }
 ]
+
+export const recommends = tsts.map(item => ({
+    ...item,
+    id: ramdomStr(11)
+}));

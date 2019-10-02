@@ -35,3 +35,24 @@ export const reComputedClientWidth = () => {
         dcm.style.fontSize = baseFontSize + 'px';
     }, 200);
 }
+
+
+export const ramdomStr = (
+    () => {
+        let ascalStr = "";
+        const chart_A_ascal = "A".charCodeAt();
+        const chart_z_ascal = "z".charCodeAt();
+        for (let i = chart_A_ascal; i <= chart_z_ascal; i++) {
+            ascalStr += String.fromCharCode(i);
+        }
+        return (lenth = 10) => {
+            let targeStr = "";
+            let randomIndex = 0
+            for (let i = 0; i < lenth; i++) {
+                randomIndex = Math.random(0, 1) * (chart_z_ascal - chart_A_ascal) | 0;
+                targeStr += ascalStr[randomIndex]
+            }
+            return targeStr;
+        }
+    }
+)();
