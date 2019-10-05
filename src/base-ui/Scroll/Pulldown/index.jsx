@@ -18,7 +18,6 @@ const hooks = [
 //私有化
 const _pullingDownHook = Symbol("_pullingDownHook");
 const _bSrollInstance = Symbol("_bSrollInstance")
-const _BScroll = Symbol("_BScroll");
 class PulldownPlugin extends React.Component {
     isInit = false
     state = {
@@ -50,11 +49,8 @@ class PulldownPlugin extends React.Component {
     }
     init(newProps) {
         const { BScroll, bSrollInstance } = newProps;
-        this[_BScroll] = BScroll;
         this[_bSrollInstance] = bSrollInstance;
         if (this[_bSrollInstance] instanceof BScroll) {
-            const { pullDownRefresh } = newProps;
-            this[_bSrollInstance].openPullDown({ ...pullDownRefresh });
             initMethods(methoeds, this, this[_bSrollInstance]);
             initHooks(hooks, this, this[_bSrollInstance], {
                 pullingDown: this[_pullingDownHook].bind(this)

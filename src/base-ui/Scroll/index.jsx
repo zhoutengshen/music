@@ -136,23 +136,22 @@ class BSroll extends React.Component {
     constructor(props) {
         super(props);
     }
-    //bSroll 这里会产生不必要的性能损耗（TODO:）,这里是为了解决Provider-Consumer 模式下不能获取better-scroll的实例
-    //详细请看 https://zh-hans.reactjs.org/docs/context.html#contextprovider 注意事项
     state = {
         bSroll: {},
-        betterScroll: betterScroll
+        betterScroll: betterScroll,
+        pluginOptions: {}
     }
     componentDidMount() {
+        console.log("BSroll")
+        const { pluginOptions } = this.state;
         const { srcollDom, props } = this;
-        //bSroll 这里会产生不必要的性能损耗（TODO:）,这里是为了解决Provider-Consumer 模式下不能获取better-scroll的实例
         const bSroll = new betterScroll(srcollDom, {
             ...props,
-            ...pluginsOptions
+            ...pluginOptions
         });
         this.setState({
             bSroll: bSroll
         });
-        //初始化事件，把batter-scroll 的事件转移到当前组件
         initMethods(methods, this, bSroll);
         initHooks(hooks, this, bSroll);
     }
@@ -161,12 +160,13 @@ class BSroll extends React.Component {
     }
     render() {
         const { children, height, className, style } = this.props;
-        const { bSroll, betterScroll } = this.state;
+        const { bSroll, betterScroll, pluginOptions } = this.state;
+
         return (
             <div style={{ height: height, ...style, overflow: "hidden", position: "relative" }} className={["scroll-wrapper", className]} ref={el => this.srcollDom = el} >
                 <div className="scroll-content">
                     {/*  注意事项 详细请看 https://zh-hans.reactjs.org/docs/context.html#contextprovider 注意事项 */}
-                    <ScrollPlugins value={{ BScroll: betterScroll, bSrollInstance: bSroll }}>
+                    <ScrollPlugins value={{ pluginOptions, BScroll: betterScroll, bSrollInstance: bSroll }}>
                         {children}
                     </ScrollPlugins>
                 </div>

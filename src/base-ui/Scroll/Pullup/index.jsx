@@ -50,8 +50,6 @@ class PullupPlugin extends React.Component {
         this[_BScroll] = BScroll;
         this[_bSrollInstance] = bSrollInstance;
         if (this[_bSrollInstance] instanceof BScroll) {
-            const { pullUpLoad } = newProps;
-            this[_bSrollInstance].finishPullUp({ ...pullUpLoad });
             initMethods(methoeds, this, this[_bSrollInstance]);
             initHooks(hooks, this, this[_bSrollInstance], {
                 pullingUp: this[_pullingUpHook].bind(this)

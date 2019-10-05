@@ -1,6 +1,7 @@
 import React from "react";
 import propTypes from "prop-types";
 import { ListWraper, RecommendListWraper, TitleWrapper } from "./style";
+import Infinity from "base-ui/Scroll/Infinity";
 import Item from "./Item";
 
 const List = props => {
