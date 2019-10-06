@@ -56,3 +56,25 @@ export const ramdomStr = (
         }
     }
 )();
+
+export const deviceType = (() => {
+    let type = "";
+    if (!global) {
+        const useAgen = window.navigator.userAgent;
+        const isIos = /.+iPhone.+/i;
+        const isIpad = /.+iPad.+/i;
+        const isAndroid = /.+Android.+/i;
+        if (isIos.test(useAgen)) {
+            type = "ios";
+        } else if (isIpad.test(useAgen)) {
+            type = "ipad";
+        } else if (isAndroid.test(useAgen)) {
+            type = "android";
+        } else {
+            type = "pc";
+        }
+    } else {
+        type = "pc"
+    }
+    return () => type;
+})();

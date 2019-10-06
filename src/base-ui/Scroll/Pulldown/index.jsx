@@ -71,6 +71,7 @@ class PulldownPlugin extends React.Component {
         //下拉钩子会触发该函数
         if (pm instanceof Promise) {
             pm.then(result => {
+
                 this.setState(
                     {
                         pullingdown: false,
@@ -79,6 +80,7 @@ class PulldownPlugin extends React.Component {
                 );
                 setTimeout(() => {
                     this.finishPullDown();
+                    this[_bSrollInstance].refresh();
                     setTimeout(() => {
                         this.setState(
                             {

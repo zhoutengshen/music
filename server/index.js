@@ -114,7 +114,7 @@ if (!isDev) {
         //服务端渲染
         const appStr = reactDOMServer.renderToString(appBundle);
         const styleTags = sheet.getStyleTags();
-        let htmlStr = htmlStr.replace("<!--app-->", appStr);
+        let htmlStr = htmlTemplate.replace("<!--app-->", appStr);
         htmlStr = htmlStr.replace("<!--style-->", styleTags);
         resp.send(htmlStr);
         next();

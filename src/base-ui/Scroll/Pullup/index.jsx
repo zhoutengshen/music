@@ -61,10 +61,12 @@ class PullupPlugin extends React.Component {
     //privary
     [_pullingUpHook](pm) {
         //下拉钩子会触发该函数
+        this.setState({
+            loadding: true
+        });
         if (pm instanceof Promise) {
             pm.then(result => {
                 if (result) {
-                    //还有数据
                     this.setState({
                         loadding: false,
                         hasData: true
@@ -75,13 +77,8 @@ class PullupPlugin extends React.Component {
                         hasData: false
                     });
                 };
-                setTimeout(() => {
-                    this.finishPullUp();
-                    this[_bSrollInstance].refresh();
-                    this.setState({
-                        loadding: true
-                    });
-                });
+                this.finishPullUp();
+                this[_bSrollInstance].refresh();
             });
         }
     }
