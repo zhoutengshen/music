@@ -1,27 +1,32 @@
 import React from "react";
 import propTypes from "prop-types";
+import { withRouter } from "react-router";
 import { ListWraper, RecommendListWraper, TitleWrapper } from "./style";
-import Infinity from "base-ui/Scroll/Infinity";
 import Item from "./Item";
-
+const itemClick = ({ id, history }) => {
+    history.push({
+        pathname: `/recommend/${id}`,
+    });
+}
 const List = props => {
-    const { recommends } = props;
+    const { recommends, history } = props;
     return (
         <RecommendListWraper>
             <TitleWrapper>
                 <h3 className="left">推荐歌曲</h3>
                 <h3 className="right">歌单广场</h3>
             </TitleWrapper>
-            <ListWraper>
+            <ListWraper >
                 {
-                    recommends.map(recommend => <Item {...recommend} key={recommend.id}></Item>)
+                    recommends.map(recommend => <Item onClick={() => { itemClick({ id: recommend.id, history: history }) }}  {...recommend} key={recommend.id} />)
                 }
             </ListWraper>
-        </RecommendListWraper>
+        </RecommendListWraper >
 
     );
 }
 List.propTypes = {
     recommends: propTypes.array.isRequired
 }
-export default React.memo(List);
+
+export default React.memo(withRouter(List));

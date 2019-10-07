@@ -5,6 +5,7 @@ import Recommend from "views/Recommend";
 import Rank from "views/Rank";
 import Singers from "views/Singers";
 import errorRouteConfig from "views/Error/route";
+import Album from "views/Album";
 let routesConfigs = [
     {
         path: "/",
@@ -19,7 +20,13 @@ let routesConfigs = [
             },
             {
                 path: "/recommend",
-                component: Recommend
+                component: Recommend,
+                routes: [
+                    {
+                        path: "/recommend/:id",
+                        component: Album
+                    }
+                ]
             },
             {
                 path: "/singers",
@@ -32,18 +39,4 @@ let routesConfigs = [
         ]
     }
 ]
-//为每个子路由添加404页面
-const routesWith404PageConfigs = (routesConfigs = []) => {
-    const newRoutesConfigs = routesConfigs.map(item => {
-        if (item.routes) {
-            const newItemRoutes = routesWith404PageConfigs([...item.routes]);
-            return {
-                ...item,
-                routes: [...newItemRoutes, errorRouteConfig]
-            }
-        }
-        return { ...item };
-    });
-    return newRoutesConfigs;
-}
-export default routesWith404PageConfigs(routesConfigs);
+export default routesConfigs;

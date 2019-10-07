@@ -70,15 +70,19 @@ class PullupPlugin extends React.Component {
                     this.setState({
                         loadding: false,
                         hasData: true
+                    }, () => {
+                        this.finishPullUp();
+                        this[_bSrollInstance].refresh();
                     });
                 } else {
                     this.setState({
                         loadding: false,
                         hasData: false
+                    }, () => {
+                        this.finishPullUp();
+                        this[_bSrollInstance].refresh();
                     });
                 };
-                this.finishPullUp();
-                this[_bSrollInstance].refresh();
             });
         }
     }

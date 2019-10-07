@@ -69,24 +69,9 @@ const hooks = [
     "enable",
     "destroy"
 ]
-//better-scroll 的bug；；；当使用use注册一个插件且配置项插件配置项为true才会把 插件的函数配置到 better-scroll 实例中。。。。。而文档却是这样说的
-// openPullDown(config: pullDownRefreshOptions = true)
-// 介绍：开启下拉刷新功能。如果实例化 BetterScroll 时 pullDownRefresh 配置项不为 false，则不需要调用该方法。
-// 参数：config: boolean | { threshold: number, stop: number } ，参数为 pullDownRefresh 配置项。默认值为 false。
-const pluginsOptions = {
-    pullDownRefresh: true,
-    mouseWheel: true,
-    observeDom: true,
-    pullUpLoad: true,
-    scrollbar: true,
-    slide: true,
-    wheel: true,
-    zoom: true,
-    nestedScroll: true,
-    infinity: true
-}
 
-class BSroll extends React.Component {
+
+class BSroll extends React.PureComponent {
     //组件的默认属性值
     static defaultProps = {
         //配置选项
@@ -142,12 +127,12 @@ class BSroll extends React.Component {
         pluginOptions: {}
     }
     componentDidMount() {
-        console.log("BSroll")
         const { pluginOptions } = this.state;
         const { srcollDom, props } = this;
+        console.log(pluginOptions)
         const bSroll = new betterScroll(srcollDom, {
             ...props,
-            ...pluginOptions
+            ...pluginOptions,
         });
         this.setState({
             bSroll: bSroll
@@ -157,11 +142,11 @@ class BSroll extends React.Component {
     }
     componentWillUnmount() {
         this.destroy();
+        console.log("componentWillUnmount")
     }
     render() {
         const { children, height, className, style } = this.props;
         const { bSroll, betterScroll, pluginOptions } = this.state;
-
         return (
             <div style={{ height: height, ...style, overflow: "hidden", position: "relative" }} className={["scroll-wrapper", className]} ref={el => this.srcollDom = el} >
                 <div className="scroll-content">

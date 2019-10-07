@@ -2,6 +2,7 @@ import styled from "styled-components";
 export const ListWraper = styled.div`
     display:flex;
     width:100%;
+    height:100%;
     justify-content:space-around;
     flex-wrap:wrap;
     &>div{

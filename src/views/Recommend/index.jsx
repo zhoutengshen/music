@@ -6,60 +6,46 @@ import RecommendList from "components/RecommendList";
 import Srcoll from "base-ui/Scroll";
 import RecommendWraper from "./style";
 import PulldownPlugin from "base-ui/Scroll/Pulldown";
-import PullupPlugin from "base-ui/Scroll/Pullup";
+import { renderRoutes } from "react-router-config";
+import { forceCheck } from 'react-lazyload';
+import { throttle } from "lodash";
 
-
-class Recommend extends React.Component {
-    page = 1
-    state = {
-        recommends: [],
-        banners: [],
-    }
-    async bootstrap() {
-        const { fetchBanner, fetchPersonalized } = this.props;
-        await fetchBanner();
-        await fetchPersonalized();
-        this.srcoll.refresh();
-    }
+const onScroll = throttle(() => {
+    forceCheck();
+}, 200)
+class Recommend extends React.PureComponent {
     componentDidMount() {
-        this.bootstrap();
-    }
-    onPullingDown = () => {
-        this.page = 1;
-        const { fetchPersonalized } = this.props;
-        return fetchPersonalized();
-    }
-    onPullingUp = () => {
-        if (this.page >= 3) {
-            return Promise.resolve(false);
-        }
-        this.page++;
-        const { fetchPersonalized } = this.props;
-        return fetchPersonalized(this.page * 30);
+        const { fetchPersonalized, fetchBanner } = this.props;
+        fetchBanner();
+        fetchPersonalized().then(() => {
+            this.srcoll.refresh();
+        })
+
     }
     render() {
-        const { onPullingDown, onPullingUp } = this;
-        let { recommends, banners } = this.props;
+        const { props } = this;
+        const { fetchPersonalized } = props;
+        let { recommends, banners } = props;
         recommends = recommends.toJS();
         banners = banners.toJS();
         const isEmptyBanner = banners.length <= 0;
         return (
             <RecommendWraper>
-                <Srcoll height="100%" probeType={2} ref={el => this.srcoll = el}>
-                    <PullupPlugin ref={el => this.pullupDom = el} onPullingUp={onPullingUp} pullUpLoad={true}>
-                        <PulldownPlugin ref={el => this.pulldownDom = el} onPullingDown={onPullingDown} pullDownRefresh={{ hreshold: 90, stop: 40 }}>
+                <Srcoll height="100%" probeType={2} onScroll={onScroll} ref={el => this.srcoll = el} click={true}>
+                    <div style={{ minHeight: 'calc(100vh - 8.8rem)' }}>
+                        <PulldownPlugin onPullingDown={() => fetchPersonalized()} pullDownRefresh={{ hreshold: 90, stop: 40 }}>
                             {
                                 isEmptyBanner ? <div style={{ height: '10px' }} /> : <Slider banners={banners} />
                             }
                             <RecommendList recommends={recommends}></RecommendList>
                         </PulldownPlugin>
-                    </PullupPlugin>
+                    </div>
                 </Srcoll>
+                {renderRoutes(props.route.routes)}
             </RecommendWraper >
         );
     }
 }
-
 // Redux
 const mapStateToProps = (state) => {
     const { recommend } = state;

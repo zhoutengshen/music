@@ -11,7 +11,6 @@ export const PullUpBottom = styled.div`
     color:#fff;
     font-size:1.6rem;
     height:${({ stop = 30 }) => {
-        console.log(stop)
         return stop + 'px';
     }};
 `;

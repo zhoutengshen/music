@@ -6,7 +6,6 @@ export const fetchBannerAction = () => {
         try {
             const { data } = await fetchBannerApi();
             const { banners } = data;
-            console.log(data);
             dispatch({
                 type: actionType.FETCH_BANNERS,
                 data: fromJS(banners)
