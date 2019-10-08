@@ -32,6 +32,7 @@ export const HeaderWraper = styled.header`
                 color: #fff;
                 font-size: 1.6rem;
                 line-height: 1.5;
+                font-weight:700;
         }
         &>.creator-info{
             line-height:3.5rem;

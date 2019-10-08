@@ -6,13 +6,18 @@ import { connect } from "react-redux";
 import TopBar from "./TopBar";
 import Header from "./Header";
 import ToolBar from "./ToolBar";
-
+import SongList from "./SongList";
+const minxSongId = (tracks, trackIds) => {
+    for (let i = 0; i < tracks.length; i++) {
+        tracks[i].songId = trackIds[i].id;
+    }
+    return tracks;
+};
 class Album extends React.PureComponent {
     componentDidMount() {
         const { fetchAlbumDetail, match } = this.props;
         const { params } = match;
         const { id } = params;
-
         fetchAlbumDetail({ albumId: id });
     }
     onBack = () => {
@@ -26,13 +31,14 @@ class Album extends React.PureComponent {
         console.log(albumDetail)
         const { description, coverImgUrl, backgroundCoverUrl,
             playCount, name, commentCount, shareCount,
-            creator = {} } = albumDetail;
+            creator = {}, tracks = [], trackIds = [] } = albumDetail;
         const { nickname, avatarUrl, signature } = creator;
         return <Container>
             <ImgCover backgroundCoverUrl={backgroundCoverUrl || coverImgUrl} />
             <TopBar description={description} onBack={onBack} />
             <Header {...{ coverImgUrl, playCount, name, nickname, avatarUrl, signature }} />
             <ToolBar {...{ commentCount, shareCount }} />
+            <SongList tracks={minxSongId(tracks, trackIds)} />
         </Container>
     }
 }

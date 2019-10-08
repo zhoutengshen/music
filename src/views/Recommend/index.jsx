@@ -16,7 +16,10 @@ const onScroll = throttle(() => {
 class Recommend extends React.PureComponent {
     componentDidMount() {
         const { fetchPersonalized, fetchBanner } = this.props;
-        fetchBanner();
+        let { banners } = this.props;
+        banners = banners.toJS();
+        //优化
+        (banners.length || fetchBanner());
         fetchPersonalized().then(() => {
             this.srcoll.refresh();
         })

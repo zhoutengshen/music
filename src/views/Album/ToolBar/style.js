@@ -13,9 +13,13 @@ export const ToolBarWraper = styled.ul`
         flex-direction:column;
         justify-content:center;
         align-items:center;
+        span{
+            font-size:1rem;
+        }
+
     }
     .iconfont{
-        font-size:25px;
+        font-size:2.5rem;
         margin-bottom:0.4rem;
     }
 `;
