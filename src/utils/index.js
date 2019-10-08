@@ -79,3 +79,14 @@ export const deviceType = (() => {
     }
     return () => type;
 })();
+
+
+export const unitConver = (playCount, fixed = 2) => {
+    if (playCount > 10000 * 10000) {
+        return Number(playCount / 10000 / 10000).toFixed(fixed) + '亿'
+    } else if (playCount > 10000) {
+        return Number(playCount / 10000).toFixed(fixed) + '万'
+    } else {
+        return playCount;
+    }
+}

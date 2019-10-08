@@ -1,11 +1,12 @@
 import React from "react";
 // import { CSSTransition } from "react-transition-group";
-import { Container } from "./style";
+import { Container, ImgCover } from "./style";
 import { fetchAlbumDetailAction } from "./store/actionCreator";
 import { connect } from "react-redux";
+import TopBar from "./TopBar";
 import Header from "./Header";
+import ToolBar from "./ToolBar";
 
-///playlist/detail?id=2997916742
 class Album extends React.PureComponent {
     componentDidMount() {
         const { fetchAlbumDetail, match } = this.props;
@@ -14,12 +15,24 @@ class Album extends React.PureComponent {
 
         fetchAlbumDetail({ albumId: id });
     }
+    onBack = () => {
+        const { history } = this.props;
+        history.goBack();
+    }
     render() {
         let { albumDetail } = this.props;
+        const { onBack } = this;
         albumDetail = albumDetail.toJS();
-        const { description } = albumDetail;
+        console.log(albumDetail)
+        const { description, coverImgUrl, backgroundCoverUrl,
+            playCount, name, commentCount, shareCount,
+            creator = {} } = albumDetail;
+        const { nickname, avatarUrl, signature } = creator;
         return <Container>
-            <Header description={description} />
+            <ImgCover backgroundCoverUrl={backgroundCoverUrl || coverImgUrl} />
+            <TopBar description={description} onBack={onBack} />
+            <Header {...{ coverImgUrl, playCount, name, nickname, avatarUrl, signature }} />
+            <ToolBar {...{ commentCount, shareCount }} />
         </Container>
     }
 }

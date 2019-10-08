@@ -2,7 +2,7 @@ import React from "react";
 import propTypes from "prop-types";
 import { withRouter } from "react-router";
 import { ListWraper, RecommendListWraper, TitleWrapper } from "./style";
-import Item from "./Item";
+import AlbumItem from "./AlbumItem";
 const itemClick = ({ id, history }) => {
     history.push({
         pathname: `/recommend/${id}`,
@@ -18,7 +18,7 @@ const List = props => {
             </TitleWrapper>
             <ListWraper >
                 {
-                    recommends.map(recommend => <Item onClick={() => { itemClick({ id: recommend.id, history: history }) }}  {...recommend} key={recommend.id} />)
+                    recommends.map(recommend => <AlbumItem onClick={() => { itemClick({ id: recommend.id, history: history }) }}  {...recommend} key={recommend.id} />)
                 }
             </ListWraper>
         </RecommendListWraper >

@@ -2,11 +2,11 @@ import React from "react";
 import ItemWraper from "./style";
 import propTyps from "prop-types";
 import LazyLoad from "react-lazyload";
-const unitConver = (playCount) => playCount > 10000 ? Number(playCount / 10000).toFixed(2) + '万' : playCount
-const Item = props => {
+import { unitConver } from "utils"
+const AlbumItem = props => {
     const { picUrl, name, playCount } = props;
     return (
-        <ItemWraper {...props}>
+        <ItemWraper {...props} className="album-item">
             <LazyLoad height="12rem" offset={100} scroll={false}>
                 <div className="img-wraper"  >
                     <p className="count">
@@ -23,10 +23,10 @@ const Item = props => {
     );
 }
 
-Item.propTypes = {
+AlbumItem.propTypes = {
     picUrl: propTyps.string.isRequired,
     name: propTyps.string.isRequired,
     playCount: propTyps.number.isRequired
 }
 
-export default React.memo(Item);
+export default React.memo(AlbumItem);
