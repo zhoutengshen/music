@@ -118,9 +118,6 @@ class BSroll extends React.PureComponent {
             return pre
         }, {})
     }
-    constructor(props) {
-        super(props);
-    }
     state = {
         bSroll: {},
         betterScroll: betterScroll,
@@ -129,7 +126,6 @@ class BSroll extends React.PureComponent {
     componentDidMount() {
         const { pluginOptions } = this.state;
         const { srcollDom, props } = this;
-        console.log(pluginOptions)
         const bSroll = new betterScroll(srcollDom, {
             ...props,
             ...pluginOptions,
