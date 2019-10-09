@@ -32,8 +32,8 @@ const getSongsInfo = (tracks = [], currentPlayingSongId = -1) => {
     return songsInfo
 }
 const changeMusicHandle = (changeSongList, { songInfo, playList }) => {
-    console.log(songInfo)
-    changeSongList({ song: songInfo, playList });
+    const { isPlaying } = songInfo;
+    (!isPlaying && changeSongList({ song: songInfo, playList }))
 }
 const SongList = (props) => {
     let { tracks, player } = props;
@@ -46,11 +46,10 @@ const SongList = (props) => {
         </header>
         {
             songsInfo.map((songInfo = {}, index) =>
-                <SongItem
-                    {...songInfo} index={index + 1}
-                    onClick={() => { changeMusicHandle(changeSongList, { songInfo, playList: songsInfo }) }}
-                    isPlaying={songInfo.isPlaying}
-                    key={songInfo.id || index} />
+                // 性能提示 不要将这个函数注册写在 组件上，可以避免重复渲染
+                <div onClick={() => { changeMusicHandle(changeSongList, { songInfo, playList: songsInfo }) }} key={songInfo.id || index}>
+                    <SongItem {...songInfo} index={index + 1} isPlaying={songInfo.isPlaying} />
+                </div>
             )
         }
     </ListWraper>

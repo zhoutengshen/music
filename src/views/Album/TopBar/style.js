@@ -28,7 +28,7 @@ export const TopBarWraper = styled.div`
         >.description{
             position:relative;
             white-space:nowrap;
-            margin:0.4rem 0;
+            line-height:1.5;
             font-size:1.3rem;
             color:#eee;
         }

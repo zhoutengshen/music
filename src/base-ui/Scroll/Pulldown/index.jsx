@@ -41,6 +41,9 @@ class PulldownPlugin extends React.Component {
         completedRender: propTypes.element
 
     }
+    componentDidMount() {
+        console.log("INIT PulldownPlugin");
+    }
     UNSAFE_componentWillReceiveProps(newProps) {
         if (newProps.BScroll && (newProps.bSrollInstance instanceof newProps.BScroll) && !this.isInit) {
             this.isInit = true;

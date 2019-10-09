@@ -124,6 +124,7 @@ class BSroll extends React.PureComponent {
         pluginOptions: {}
     }
     componentDidMount() {
+        console.log("INIT BSroll");
         const { pluginOptions } = this.state;
         const { srcollDom, props } = this;
         const bSroll = new betterScroll(srcollDom, {

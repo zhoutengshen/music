@@ -5,6 +5,7 @@ import LazyLoad from "react-lazyload";
 import { unitConver } from "utils"
 const AlbumItem = props => {
     const { picUrl, name, playCount } = props;
+    console.log(">>AlbumItem>>");
     return (
         <ItemWraper {...props} className="album-item">
             <LazyLoad height="12rem" offset={100} scroll={false}>

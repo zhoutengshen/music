@@ -14,13 +14,20 @@ const onScroll = throttle(() => {
     forceCheck();
 }, 200)
 class Recommend extends React.PureComponent {
+    fetchBanner = () => {
+        const { dispatch } = this.props;
+        return dispatch(actions.fetchBannerAction());
+    }
+    fetchPersonalized = (limit = 30) => {
+        const { dispatch } = this.props;
+        return dispatch(actions.fetchRecommendAction(limit));
+    }
     componentDidMount() {
-        const { fetchPersonalized, fetchBanner } = this.props;
         let { banners } = this.props;
         banners = banners.toJS();
         //优化
-        (banners.length || fetchBanner());
-        fetchPersonalized().then(() => {
+        (banners.length || this.fetchBanner());
+        this.fetchPersonalized().then(() => {
             this.srcoll.refresh();
         })
 
@@ -32,6 +39,7 @@ class Recommend extends React.PureComponent {
         recommends = recommends.toJS();
         banners = banners.toJS();
         const isEmptyBanner = banners.length <= 0;
+        console.log("Recommend")
         return (
             <RecommendWraper>
                 <Srcoll height="100%" probeType={2} onScroll={onScroll} ref={el => this.srcoll = el} click={true}>
@@ -52,6 +60,7 @@ class Recommend extends React.PureComponent {
 // Redux
 const mapStateToProps = (state) => {
     const { recommend } = state;
+    window.r = recommend;
     return {
         banners: recommend.get("banners"),
         recommends: recommend.get("recommends")
@@ -59,12 +68,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchBanner() {
-            return dispatch(actions.fetchBannerAction());
-        },
-        fetchPersonalized(limit = 30) {
-            return dispatch(actions.fetchRecommendAction(limit))
-        }
+        dispatch
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Recommend));
+export default connect(mapStateToProps, mapDispatchToProps)(Recommend);

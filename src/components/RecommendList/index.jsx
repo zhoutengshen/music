@@ -18,7 +18,9 @@ const List = props => {
             </TitleWrapper>
             <ListWraper >
                 {
-                    recommends.map(recommend => <AlbumItem onClick={() => { itemClick({ id: recommend.id, history: history }) }}  {...recommend} key={recommend.id} />)
+                    recommends.map(recommend => <div onClick={() => { itemClick({ id: recommend.id, history: history }) }} key={recommend.id}>
+                        <AlbumItem  {...recommend} />
+                    </div>)
                 }
             </ListWraper>
         </RecommendListWraper >

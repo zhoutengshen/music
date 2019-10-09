@@ -1,13 +1,13 @@
 import React, { memo } from "react";
 import { ItemWraper } from "./style";
 const MusicItem = (props) => {
-    const { isPlaying, index, songName, songAlia, songId, artistNames, albumName, isFirstPaind } = props;
-    const { onClick } = props;
+    const { isPlaying, index, songName, songAlia, artistNames, albumName } = props;
+    console.log(">>>>>")
     return <ItemWraper>
         {
             isPlaying ? <i className="iconfont iconlaba left" /> : <span className="left">{index}</span>
         }
-        <div className="mid" onClick={onClick}>
+        <div className="mid">
             <p >
                 <span className="songName">{songName}</span>
                 <span className="songAlia">{songAlia ? '（' + songAlia + '）' : ''}</span>

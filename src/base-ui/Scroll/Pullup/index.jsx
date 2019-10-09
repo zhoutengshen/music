@@ -39,6 +39,9 @@ class PullupPlugin extends React.Component {
         hasDataRender: propTypes.element,
         noDataRender: propTypes.element
     }
+    componentDidMount() {
+        console.log("INIT PullupPlugin");
+    }
     UNSAFE_componentWillReceiveProps(newProps) {
         if (newProps.BScroll && (newProps.bSrollInstance instanceof newProps.BScroll) && !this.isInit) {
             this.isInit = true;
