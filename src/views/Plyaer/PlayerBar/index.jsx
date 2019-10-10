@@ -1,18 +1,26 @@
 import React, { memo } from "react";
 import { PlayerBarWraper } from "./style";
+import PlayBarLyrics from "components/Lyrics/Mini";
+import PlayBarCircleProgressBar from "components/ProgressBar/PlayBar"
 import { connect } from "react-redux";
 
 const PlayerBar = (props) => {
-    const { song } = props;
-    console.log(song);
+    let { currentPlayingSong } = props;
+    currentPlayingSong = currentPlayingSong.toJS();
+    let { picUrl, albumName, artistNames, songAlia, songName } = currentPlayingSong;
+    songAlia = songAlia ? ` (${songAlia}) ` : songAlia;
     return <PlayerBarWraper>
         <div className="left">
-
+            <img src={picUrl} alt="" />
         </div>
         <div className="mid">
+            <p className="songName">{songName}{songAlia}</p>
+            <div className="lyrics">
+                <PlayBarLyrics />
+            </div>
         </div>
         <div className="right">
-            <i className="progress"></i>
+            <PlayBarCircleProgressBar strokeWidth={4} trailColor="f4f4f4" />
             <i className="play-list"></i>
         </div>
     </PlayerBarWraper>
@@ -22,9 +30,10 @@ const PlayerBar = (props) => {
 
 const mapStateToProps = (state) => {
     const { player } = state;
-    const song = player.get("song");
+    console.log(player)
+    const currentPlayingSong = player.get("currentPlayingSong");
     return {
-        song
+        currentPlayingSong: currentPlayingSong
     }
 }
 const mapDispatchToProps = (dispatch) => {

@@ -24,10 +24,11 @@ class SongList extends React.PureComponent {
             const songName = song.name;
             const artistNames = song.ar.reduce((preItem, nextItem) => preItem.concat(nextItem.name), "/").slice(1);
             const albumName = song.al.name || "";
+            const picUrl = song.al.picUrl;
             const songAlia = song.alia.reduce((preItem, nextItem) => preItem.concat(nextItem), ",").slice(1);
             const isPlaying = song.songId === currentPlayingSongId;
             return {
-                songId, songName, artistNames, albumName, songAlia, isPlaying
+                songId, songName, artistNames, albumName, songAlia, isPlaying, picUrl
             }
         });
         return songsInfo
@@ -39,8 +40,8 @@ class SongList extends React.PureComponent {
     render() {
         const { props } = this;
         const { getSongsInfo, changeMusicHandle } = this;
-        let { tracks, player } = props;
-        const currentPlayingSong = player.get("song");
+        let { tracks, currentPlayingSong } = props;
+        currentPlayingSong = currentPlayingSong.toJS();
         const currentPlayingSongId = currentPlayingSong.songId;
         const songsInfo = getSongsInfo(tracks, currentPlayingSongId);
         const { changeSongList } = props;
@@ -71,7 +72,7 @@ class SongList extends React.PureComponent {
 const mapStateToProps = (state) => {
     const { player } = state;
     return {
-        player: player
+        currentPlayingSong: player.get("currentPlayingSong")
     }
 }
 const mapDispatchToProps = (dispatch) => {

@@ -1,7 +1,7 @@
 import * as actionTypes from "./constants";
 import { fromJS } from "immutable";
 const defalutState = fromJS({
-    song: {},
+    currentPlayingSong: {},
     songDetail: {},
     playList: [],
     pause: true,
@@ -11,7 +11,7 @@ export default (state = defalutState, action) => {
         case actionTypes.CHANGE_PLAY_LIST:
             return state.set("playList", action.data)
         case actionTypes.CHANGE_SONG:
-            return state.set("song", action.data)
+            return state.set("currentPlayingSong", action.data)
         case actionTypes.PAUSE:
             return state.set("pause", true)
         case actionTypes.PLAY:

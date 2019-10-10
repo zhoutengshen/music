@@ -1,5 +1,6 @@
 import * as actionType from "./constants";
 import { fetchSonsDetailApi } from "api/song";
+import { fromJS } from "immutable";
 export const playNextSongAction = () => {
     return {
         type: actionType.PLAY_NEXT_SONG
@@ -30,12 +31,12 @@ export const changeSongListAction = ({ song = {}, playList = [] }) => {
         //切换歌曲
         dispatch({
             type: actionType.CHANGE_SONG,
-            data: song
+            data: fromJS(song)
         });
         //更新播放列表
         dispatch({
             type: actionType.CHANGE_PLAY_LIST,
-            data: playList
+            data: fromJS(playList)
         });
         //获取该歌曲的详细信息
         return new Promise((resolve, reject) => {
