@@ -10,7 +10,6 @@ const PlayerBar = (props) => {
 
         </div>
         <div className="mid">
-
         </div>
         <div className="right">
             <i className="progress"></i>
