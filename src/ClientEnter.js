@@ -7,6 +7,7 @@ import routesConfig from "routes";
 import { Provider as RouterKeepProvider } from "react-keep-alive";
 import ResetCss from "style";
 import themeHoc from "hoc/themeHoc";
+import player from "views/Plyaer/index";
 import { reComputedClientWidth } from "utils";
 const WithThemeApp = themeHoc((props) => {
   reComputedClientWidth();
@@ -15,11 +16,14 @@ const WithThemeApp = themeHoc((props) => {
     <div>
       <ResetCss />
       <ThemeProvider theme={theme}>
-        <Router>
-          <RouterKeepProvider>
-            {renderRoutes(routesConfig)}
-          </RouterKeepProvider>
-        </Router>
+        <div>
+          <Router>
+            <RouterKeepProvider>
+              {renderRoutes(routesConfig)}
+            </RouterKeepProvider>
+          </Router>
+          <player.PlayerBar></player.PlayerBar>
+        </div>
       </ThemeProvider>
     </div>
   );

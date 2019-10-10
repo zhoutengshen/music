@@ -32,7 +32,6 @@ class Album extends React.Component {
         let { albumDetail } = this.props;
         const { onBack } = this;
         albumDetail = albumDetail.toJS();
-        console.log(albumDetail)
         const { description, coverImgUrl, backgroundCoverUrl,
             playCount, name, commentCount, shareCount,
             creator = {}, tracks = [], trackIds = [] } = albumDetail;
