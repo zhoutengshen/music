@@ -41,7 +41,6 @@ export const changeSongListAction = ({ song = {}, playList = [] }) => {
         return new Promise((resolve, reject) => {
             const songId = song.songId;
             fetchSonsDetailApi({ ids: [songId] }).then(({ data }) => {
-                console.log(data);
             });
         });
     }

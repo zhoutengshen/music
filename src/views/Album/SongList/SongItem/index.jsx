@@ -2,7 +2,6 @@ import React, { memo } from "react";
 import { ItemWraper } from "./style";
 const MusicItem = (props) => {
     const { isPlaying, index, songName, songAlia, artistNames, albumName } = props;
-    console.log(">>>>>")
     return <ItemWraper>
         {
             isPlaying ? <i className="iconfont iconlaba left" /> : <span className="left">{index}</span>

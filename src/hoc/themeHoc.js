@@ -1,8 +1,7 @@
 import { connect } from "react-redux";
-const mapStateToProps = (stateProps, ownProps) => {
+const mapStateToProps = (stateProps) => {
     return {
         theme: stateProps.theme,
-        ...ownProps
     }
 }
 export default (Component) => {

@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { renderRoutes } from "react-router-config";
 import { hot } from "react-hot-loader";
 import routesConfig from "routes";
+import { Provider as RouterKeepProvider } from "react-keep-alive";
 import ResetCss from "style";
 import themeHoc from "hoc/themeHoc";
 import { reComputedClientWidth } from "utils";
@@ -15,7 +16,9 @@ const WithThemeApp = themeHoc((props) => {
       <ResetCss />
       <ThemeProvider theme={theme}>
         <Router>
-          {renderRoutes(routesConfig)}
+          <RouterKeepProvider>
+            {renderRoutes(routesConfig)}
+          </RouterKeepProvider>
         </Router>
       </ThemeProvider>
     </div>

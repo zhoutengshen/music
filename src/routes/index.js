@@ -4,7 +4,6 @@ import Home from "views/Home";
 import Recommend from "views/Recommend";
 import Rank from "views/Rank";
 import Singers from "views/Singers";
-import errorRouteConfig from "views/Error/route";
 import Album from "views/Album";
 let routesConfigs = [
     {

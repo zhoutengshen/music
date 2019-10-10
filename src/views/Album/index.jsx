@@ -2,6 +2,7 @@ import React from "react";
 // import { CSSTransition } from "react-transition-group";
 import { Container, ImgCover } from "./style";
 import { fetchAlbumDetailAction } from "./store/actionCreator";
+import { KeepAlive, bindLifecycle } from "react-keep-alive";
 import { connect } from "react-redux";
 import TopBar from "./TopBar";
 import Header from "./Header";
@@ -13,21 +14,25 @@ const minxSongId = (tracks, trackIds) => {
     }
     return tracks;
 };
-class Album extends React.PureComponent {
+@bindLifecycle
+class Album extends React.Component {
     componentDidMount() {
-        const { fetchAlbumDetail, match } = this.props;
-        const { params } = match;
-        const { id } = params;
-        fetchAlbumDetail({ albumId: id });
+        const { fetchAlbumDetail, id } = this.props;
+        fetchAlbumDetail(id);
     }
     onBack = () => {
         const { history } = this.props;
         history.goBack();
     }
+    componentDidActivate() {
+        const { fetchAlbumDetail } = this.props;
+        fetchAlbumDetail(this.props.id);
+    }
     render() {
         let { albumDetail } = this.props;
         const { onBack } = this;
         albumDetail = albumDetail.toJS();
+        console.log(albumDetail)
         const { description, coverImgUrl, backgroundCoverUrl,
             playCount, name, commentCount, shareCount,
             creator = {}, tracks = [], trackIds = [] } = albumDetail;
@@ -41,6 +46,7 @@ class Album extends React.PureComponent {
         </Container>
     }
 }
+
 //Redux
 const mapStateToProps = (state) => {
     const { albumDetail } = state;
@@ -48,13 +54,16 @@ const mapStateToProps = (state) => {
         albumDetail: albumDetail.get("albumDetail")
     }
 }
-
 const mapDipatchToPRops = (dispatch) => {
     return {
-        fetchAlbumDetail({ albumId }) {
+        fetchAlbumDetail(albumId) {
             return dispatch(fetchAlbumDetailAction({ albumId }));
         }
     }
 }
-
-export default connect(mapStateToProps, mapDipatchToPRops)(Album);
+const AlbumReduxContrainer = connect(mapStateToProps, mapDipatchToPRops)(Album);
+const KeepAliveAlbum = (props) => {
+    //额外数据要附加在extra，尽管是路由的信息也会被缓存起来
+    return <KeepAlive name="album" extra={{ id: props.match.params.id }}><AlbumReduxContrainer {...props} /></KeepAlive>;
+}
+export default KeepAliveAlbum;

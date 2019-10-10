@@ -4,12 +4,10 @@ const DEFALUT_THEME_ACTION = Symbol();
 const themeReducer = (state = { ...defalutTheme }, action) => {
     if (action.type === DEFALUT_THEME_ACTION) {
         return {
-            ...defalutTheme
+            ...action.data
         }
     } else {
-        return {
-            ...state
-        }
+        return state
     }
 }
 export default themeReducer;

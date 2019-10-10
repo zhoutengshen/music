@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as actions from "./store/actionCreators";
 import RecommendList from "components/RecommendList";
 import Srcoll from "base-ui/Scroll";
+import { KeepAlive, bindLifecycle } from "react-keep-alive";
 import RecommendWraper from "./style";
 import PulldownPlugin from "base-ui/Scroll/Pulldown";
 import { renderRoutes } from "react-router-config";
@@ -13,23 +14,27 @@ import { throttle } from "lodash";
 const onScroll = throttle(() => {
     forceCheck();
 }, 200)
-class Recommend extends React.PureComponent {
-    fetchBanner = () => {
-        const { dispatch } = this.props;
-        return dispatch(actions.fetchBannerAction());
-    }
-    fetchPersonalized = (limit = 30) => {
-        const { dispatch } = this.props;
-        return dispatch(actions.fetchRecommendAction(limit));
-    }
-    componentDidMount() {
+@bindLifecycle
+class Recommend extends React.Component {
+    initData() {
+        const { fetchBanner, fetchPersonalized } = this.props;
         let { banners } = this.props;
         banners = banners.toJS();
         //优化
-        (banners.length || this.fetchBanner());
-        this.fetchPersonalized().then(() => {
+        (banners.length || fetchBanner());
+        fetchPersonalized().then(() => {
             this.srcoll.refresh();
         })
+    }
+    componentDidMount() {
+        this.initData();
+    }
+    componentDidActivate() {
+        const timmerId = setTimeout(() => {
+            this.srcoll.refresh();
+            clearTimeout(timmerId);
+            this.initData();
+        }, 0);
 
     }
     render() {
@@ -39,7 +44,6 @@ class Recommend extends React.PureComponent {
         recommends = recommends.toJS();
         banners = banners.toJS();
         const isEmptyBanner = banners.length <= 0;
-        console.log("Recommend")
         return (
             <RecommendWraper>
                 <Srcoll height="100%" probeType={2} onScroll={onScroll} ref={el => this.srcoll = el} click={true}>
@@ -60,7 +64,6 @@ class Recommend extends React.PureComponent {
 // Redux
 const mapStateToProps = (state) => {
     const { recommend } = state;
-    window.r = recommend;
     return {
         banners: recommend.get("banners"),
         recommends: recommend.get("recommends")
@@ -68,7 +71,17 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        dispatch
+        fetchBanner() {
+            return dispatch(actions.fetchBannerAction());
+        },
+        fetchPersonalized(limit = 30) {
+            return dispatch(actions.fetchRecommendAction(limit));
+        }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Recommend);
+const ReduxRecommendContrainer = connect(mapStateToProps, mapDispatchToProps)(Recommend);
+export default (props) => {
+    return <KeepAlive name="recommend">
+        <ReduxRecommendContrainer {...props} />
+    </KeepAlive>
+}

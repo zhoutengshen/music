@@ -4,6 +4,7 @@ import { renderRoutes } from "react-router-config";
 import { Content, TopBar, Tab, TabItem } from "views/Home/style";
 const Home = props => {
     const { route, theme } = props;
+    console.log("Home");
     return <div>
         <TopBar props={theme}>
             <span className="iconfont iconcaidan"></span>
