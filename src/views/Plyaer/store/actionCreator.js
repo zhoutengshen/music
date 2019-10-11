@@ -47,8 +47,15 @@ export const addOneSongToPlayHisttoryAction = () => {
 }
 //
 export const fetchSongMP3Action = ({ songId }) => {
-    return new Promise((resolve, reject) => {
-        fetchSonsDetailApi({ id: songId }).then(({ data }) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            fetchSonsDetailApi({ id: songId }).then(({ data }) => {
+                dispatch({
+                    type: actionType.FETCH_SONG_MP3_INFO,
+                    data: fromJS(data.data[0])
+                })
+                resolve(data);
+            });
         });
-    });
+    }
 }

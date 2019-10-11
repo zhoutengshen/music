@@ -23,6 +23,7 @@ const WithThemeApp = themeHoc((props) => {
             </RouterKeepProvider>
           </Router>
           <player.PlayerBar></player.PlayerBar>
+          <player.AudioPlayer></player.AudioPlayer>
         </div>
       </ThemeProvider>
     </div>

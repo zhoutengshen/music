@@ -1,10 +1,10 @@
 import React, { memo } from "react";
 import { ItemWraper } from "./style";
 const MusicItem = (props) => {
-    const { isPlaying, index, songName, songAlia, artistNames, albumName } = props;
+    const { isSelect, index, songName, songAlia, artistNames, albumName } = props;
     return <ItemWraper>
         {
-            isPlaying ? <i className="iconfont iconlaba left" /> : <span className="left">{index}</span>
+            isSelect ? <i className="iconfont iconlaba left" /> : <span className="left">{index}</span>
         }
         <div className="mid">
             <p >

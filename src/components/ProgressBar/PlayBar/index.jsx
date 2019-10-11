@@ -39,24 +39,32 @@ class PlayBarCircleProgressBar extends React.PureComponent {
                 fontWeight: 600
             }
         };
-        const { strokeWidth, trailColor, duration, trailWidth, easing, color } = this.props;
-        this.circle = new ProgressBar.Circle(this.ref, { strokeWidth, color, trailColor, duration, trailWidth, easing, text: textConfig });
-        this.circle.animate(1);
+        const { strokeWidth, trailColor, trailWidth, easing, color } = this.props;
+        this.circle = new ProgressBar.Circle(this.ref, { strokeWidth, color, trailColor, trailWidth, easing, text: textConfig });
         if (isPause) {
             this.circle.stop();
         }
     }
+    computedSongTime = () => {
+        let { currentPlayingSongMp3Info } = this.props;
+        currentPlayingSongMp3Info = currentPlayingSongMp3Info.toJS();
+        // （音频编码率（Kbit为单位）/8 + 视频编码率（Kbit为单位）/8）× 影片总长度（秒为单位）= 文件大小（KB为单位）
+        //time = size / (br / 8) = size / br * 8 
+        const { size, br } = currentPlayingSongMp3Info;
+        return size / br * 8;
+    }
     changeIconStyle = () => {
-
         const { isPause } = this.props;
         const { circle } = this;
         if (!circle) {
             return;
         }
-        //歌曲发生变化重置进度条
-        if (this.currentPlayingSong !== this.props.currentPlayingSong) {
+        if (this.currentPlayingSongMp3Info === undefined) {
+            //首次
+            this.currentPlayingSongMp3Info = this.props.currentPlayingSongMp3Info;
+        } else if (this.currentPlayingSongMp3Info !== this.props.currentPlayingSongMp3Info) {
+            this.currentPlayingSongMp3Info = this.props.currentPlayingSongMp3Info;
             circle.set(0);
-            this.currentPlayingSong = this.props.currentPlayingSong;
         }
         const className = isPause ? "iconfont iconbar-play" : "iconfont iconbar-pause";
         this.circle.text.className = className;
@@ -64,7 +72,11 @@ class PlayBarCircleProgressBar extends React.PureComponent {
             circle.text.style.marginLeft = "0.15rem";
             circle.stop();
         } else {
-            circle.animate(1);
+            const time = this.computedSongTime();
+            //歌曲发生变化重置进度条
+            circle.animate(1, {
+                duration: 1000 * time
+            });
             circle.text.style.marginLeft = "0";
         }
     }
@@ -86,7 +98,7 @@ const mapStateToProps = (state) => {
     const { player } = state;
     return {
         isPause: player.get("pause"),
-        currentPlayingSong: player.get("currentPlayingSong")
+        currentPlayingSongMp3Info: player.get("currentPlayingSongMp3Info")
     }
 }
 const mapDispatchToProps = (dispatch) => {

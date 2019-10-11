@@ -29,23 +29,29 @@ class SongList extends React.PureComponent {
             const albumName = song.al.name || "";
             const picUrl = song.al.picUrl;
             const songAlia = song.alia.reduce((preItem, nextItem) => preItem.concat(nextItem), ",").slice(1);
-            const isPlaying = song.songId === currentPlayingSongId;
+            const isSelect = song.songId === currentPlayingSongId;
             return {
-                songId, songName, artistNames, albumName, songAlia, isPlaying, picUrl
+                songId, songName, artistNames, albumName, songAlia, isSelect, picUrl
             }
         });
         return songsInfo
     }
     changeMusicHandle = ({ willPlaySongInfo }) => {
-        const { changeSongAction, playAction } = this.props;
-        const { isPlaying } = willPlaySongInfo;
+        let { playList } = this.props;
+        const { changeSongAction, playAction, changeSongPlayListListAction, fetchSongMP3Action } = this.props;
+        const { isSelect } = willPlaySongInfo;
         //点击的项没播放
-        if (!isPlaying) {
+        if (!isSelect) {
             changeSongAction({ song: willPlaySongInfo });
             playAction();
+            fetchSongMP3Action({ songId: willPlaySongInfo.songId });
         }
         //判断将要播放的歌曲是否在当前播放列表
-        //TODO:
+        playList = playList.toJS();
+        if (playList.findIndex((item) => item.songId === willPlaySongInfo.songId) === -1) {
+            changeSongPlayListListAction();
+
+        }
     }
     render() {
         const { props } = this;
@@ -79,10 +85,11 @@ class SongList extends React.PureComponent {
 const mapStateToProps = (state) => {
     const { player } = state;
     return {
-        currentPlayingSong: player.get("currentPlayingSong")
+        currentPlayingSong: player.get("currentPlayingSong"),
+        playList: player.get("playList")
     }
 }
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, { songInfoList }) => {
     const { actions } = playerStore;
     return {
         changeSongAction({ song }) {
@@ -94,8 +101,11 @@ const mapDispatchToProps = (dispatch) => {
         playAction() {
             dispatch(actions.playAction());
         },
-        changeSongPlayListListAction({ playList }) {
-            dispatch(actions.changeSongPlayListListAction({ playList }))
+        changeSongPlayListListAction() {
+            dispatch(actions.changeSongPlayListListAction({ playList: songInfoList }))
+        },
+        fetchSongMP3Action({ songId }) {
+            dispatch(actions.fetchSongMP3Action({ songId }))
         }
     }
 }
