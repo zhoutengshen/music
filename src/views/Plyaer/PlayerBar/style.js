@@ -2,7 +2,7 @@ import styled from "styled-components";
 export const PlayerBarWraper = styled.div`
     position:fixed;
     display:flex;
-    height:5rem;
+    height:6rem;
     left:0;
     bottom:0;
     width:100vw;
@@ -11,10 +11,10 @@ export const PlayerBarWraper = styled.div`
     background:${({ theme }) => theme.palette['background'].default};
     z-index:${() => Number.MAX_SAFE_INTEGER};
     .left{
-        width: 5rem;
+        width: 6rem;
         box-sizing: border-box;
         overflow: hidden;
-        padding: 0.6rem;
+        padding: 1rem;
         img{
             width: 100%;
             height: 100%;
@@ -43,11 +43,15 @@ export const PlayerBarWraper = styled.div`
     }
     .right{
         width:9rem;
-        svg{
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        .progress-bar{
             box-sizing: border-box;
-            width:4rem !important;
+            width:4rem ;
             height:4rem;
-            padding:0.6rem;
+            padding:0.4rem;
         }
+
     }
 `;

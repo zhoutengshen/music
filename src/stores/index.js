@@ -4,7 +4,17 @@ import reduxThunk from "redux-thunk";
 const defaultState = {
 }
 const composeEnhancer = compose;
-const store = createStore(reducers, defaultState, composeEnhancer(
-    applyMiddleware(reduxThunk)
-));
+let store = {};
+//排除服务端渲染没有window对象
+if (global.window === global && global.window.__REDUX_DEVTOOLS_EXTENSION__) {
+    //非服务端开发环境
+    store = createStore(reducers, defaultState, composeEnhancer(
+        applyMiddleware(reduxThunk), global.window.__REDUX_DEVTOOLS_EXTENSION__ && global.window.__REDUX_DEVTOOLS_EXTENSION__()
+    ));
+} else {
+    store = createStore(reducers, defaultState, composeEnhancer(
+        applyMiddleware(reduxThunk)
+    ));
+}
+
 export default store;
