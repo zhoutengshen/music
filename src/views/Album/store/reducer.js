@@ -1,7 +1,9 @@
 import * as actionTypes from "./constants";
 import { fromJS } from "immutable";
 const defaultState = {
-    albumDetail: []
+    albumDetail: {
+        playlist: {}, privileges: {}
+    }
 }
 export default (state = fromJS(defaultState), action) => {
     switch (action.type) {

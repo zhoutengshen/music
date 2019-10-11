@@ -8,9 +8,9 @@ import TopBar from "./TopBar";
 import Header from "./Header";
 import ToolBar from "./ToolBar";
 import SongList from "./SongList";
-const minxSongId = (tracks, trackIds) => {
+const minxSongId = (tracks, privileges) => {
     for (let i = 0; i < tracks.length; i++) {
-        tracks[i].songId = trackIds[i].id;
+        tracks[i].songId = privileges[i].id;
     }
     return tracks;
 };
@@ -32,16 +32,17 @@ class Album extends React.Component {
         let { albumDetail } = this.props;
         const { onBack } = this;
         albumDetail = albumDetail.toJS();
+        const { playlist, privileges } = albumDetail
         const { description, coverImgUrl, backgroundCoverUrl,
             playCount, name, commentCount, shareCount,
-            creator = {}, tracks = [], trackIds = [] } = albumDetail;
+            creator = {}, tracks = [] } = playlist;
         const { nickname, avatarUrl, signature } = creator;
         return <Container>
             <ImgCover backgroundCoverUrl={backgroundCoverUrl || coverImgUrl} />
             <TopBar description={description} onBack={onBack} />
             <Header {...{ coverImgUrl, playCount, name, nickname, avatarUrl, signature }} />
             <ToolBar {...{ commentCount, shareCount }} />
-            <SongList tracks={minxSongId(tracks, trackIds)} />
+            <SongList songInfoList={minxSongId(tracks, privileges)} />
         </Container>
     }
 }

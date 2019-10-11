@@ -18,31 +18,37 @@ export const pauseAction = () => {
     }
 }
 
-export const playActionAction = () => {
+export const playAction = () => {
     return {
         type: actionType.PLAY
     }
 }
-//改变当前的播放列表
-//song播放列表里面的一条歌曲（即将播放）
-//playList 播放列表
-export const changeSongListAction = ({ song = {}, playList = [] }) => {
-    return dispatch => {
-        //切换歌曲
-        dispatch({
-            type: actionType.CHANGE_SONG,
-            data: fromJS(song)
-        });
-        //更新播放列表
-        dispatch({
-            type: actionType.CHANGE_PLAY_LIST,
-            data: fromJS(playList)
-        });
-        //获取该歌曲的详细信息
-        return new Promise((resolve, reject) => {
-            const songId = song.songId;
-            fetchSonsDetailApi({ ids: [songId] }).then(({ data }) => {
-            });
-        });
+//更新播放列表
+export const changeSongPlayListListAction = ({ playList = [] }) => {
+    return {
+        type: actionType.CHANGE_PLAY_LIST,
+        data: fromJS(playList)
     }
+}
+
+//切换歌曲
+export const changeSongAction = ({ song = {} }) => {
+    return {
+        type: actionType.CHANGE_SONG,
+        data: fromJS(song)
+    }
+}
+
+//添加一条数据到历史播放列表
+export const addOneSongToPlayHisttoryAction = () => {
+    return {
+
+    }
+}
+//
+export const fetchSongMP3Action = ({ songId }) => {
+    return new Promise((resolve, reject) => {
+        fetchSonsDetailApi({ id: songId }).then(({ data }) => {
+        });
+    });
 }

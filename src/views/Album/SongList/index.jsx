@@ -6,20 +6,23 @@ import SongItem from "./SongItem";
 
 class SongList extends React.PureComponent {
     //产生十条空数据,用于骨架屏
-    getInitTracks = (tracks) => {
-        return tracks.length === 0 ? Array.from(new Array(10)).map(() => {
+    getInitsongInfoList = (songInfoList) => {
+        return songInfoList.length === 0 ? Array.from(new Array(10)).map(() => {
             return {
                 name: "",
                 ar: [],
                 al: {},
                 alia: []
             }
-        }) : tracks;
+        }) : songInfoList;
 
     }
-    getSongsInfo = (tracks = [], currentPlayingSongId = -1) => {
-        tracks = this.getInitTracks(tracks);
-        const songsInfo = tracks.map(song => {
+    getSongsInfo = (songInfoList = []) => {
+        let { currentPlayingSong } = this.props;
+        currentPlayingSong = currentPlayingSong.toJS();
+        const currentPlayingSongId = currentPlayingSong.songId || -1;
+        songInfoList = this.getInitsongInfoList(songInfoList);
+        const songsInfo = songInfoList.map(song => {
             const songId = song.songId;
             const songName = song.name;
             const artistNames = song.ar.reduce((preItem, nextItem) => preItem.concat(nextItem.name), "/").slice(1);
@@ -33,18 +36,22 @@ class SongList extends React.PureComponent {
         });
         return songsInfo
     }
-    changeMusicHandle = (changeSongList, { songInfo, playList }) => {
-        const { isPlaying } = songInfo;
-        (!isPlaying && changeSongList({ song: songInfo, playList }));
+    changeMusicHandle = ({ willPlaySongInfo }) => {
+        const { changeSongAction, playAction } = this.props;
+        const { isPlaying } = willPlaySongInfo;
+        //点击的项没播放
+        if (!isPlaying) {
+            changeSongAction({ song: willPlaySongInfo });
+            playAction();
+        }
+        //判断将要播放的歌曲是否在当前播放列表
+        //TODO:
     }
     render() {
         const { props } = this;
         const { getSongsInfo, changeMusicHandle } = this;
-        let { tracks, currentPlayingSong } = props;
-        currentPlayingSong = currentPlayingSong.toJS();
-        const currentPlayingSongId = currentPlayingSong.songId;
-        const songsInfo = getSongsInfo(tracks, currentPlayingSongId);
-        const { changeSongList } = props;
+        let { songInfoList } = props;
+        songInfoList = getSongsInfo(songInfoList);
         return <ListWraper>
             <header className="header">
                 <i className="iconfont iconplay play-all"></i>
@@ -55,9 +62,9 @@ class SongList extends React.PureComponent {
                 </div>
             </header>
             {
-                songsInfo.map((songInfo = {}, index) =>
+                songInfoList.map((songInfo = {}, index) =>
                     // 性能提示 不要将这个函数注册写在 组件上，可以避免重复渲染
-                    <div onClick={() => { changeMusicHandle(changeSongList, { songInfo, playList: songsInfo }) }} key={songInfo.id || index}>
+                    <div onClick={() => { changeMusicHandle({ willPlaySongInfo: songInfo }) }} key={songInfo.songId}>
                         <SongItem {...songInfo} index={index + 1} />
                     </div>
                 )
@@ -78,8 +85,17 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     const { actions } = playerStore;
     return {
-        changeSongList({ song, playList }) {
-            dispatch(actions.changeSongListAction({ song, playList }))
+        changeSongAction({ song }) {
+            dispatch(actions.changeSongAction({ song }));
+        },
+        changePlayHistory() {
+
+        },
+        playAction() {
+            dispatch(actions.playAction());
+        },
+        changeSongPlayListListAction({ playList }) {
+            dispatch(actions.changeSongPlayListListAction({ playList }))
         }
     }
 }
