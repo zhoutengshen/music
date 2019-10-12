@@ -15,7 +15,7 @@ const PlaySongListItem = (props) => {
             <span className={isSelect ? 'songName isSelect' : 'songName'}>{songName + songAlia}</span>
             <span className={isSelect ? 'artistNames isSelect' : 'artistNames'}>{artistNames}</span>
         </p>
-        <i className="iconfont icondelete"></i>
+        <i className="iconfont"></i>
     </PlaySongListItemWraper>
 }
 

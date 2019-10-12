@@ -54,14 +54,19 @@ export const HeaderWraper = styled.div`
     top:0;
     z-index:1;
     .left,.right{
+        color:${({ theme }) => theme.palette.text.secondary};
         .iconloop{
             font-size:3rem !important;
+            vertical-align: middle;
         }
-        .iconshoucang{
+        .iconshoucang,.icondelete{
             font-size:2rem !important;
+            vertical-align: middle;
         }
         .disc{
             font-size: 1.8rem;
+            vertical-align: middle;
+            margin:0 0.8rem;
         }
     }
 `;
