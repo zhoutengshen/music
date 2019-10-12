@@ -44,13 +44,18 @@ export const PlayerBarWraper = styled.div`
     .right{
         width:9rem;
         display:flex;
-        flex-direction:column;
-        justify-content:center;
+        align-items:center;
         .progress-bar{
             box-sizing: border-box;
             width:4rem ;
             height:4rem;
             padding:0.4rem;
+        }
+        .play-list{
+            font-size: 2.7rem;
+            color: #999;
+            font-weight: 100;
+            margin-left: 1.4rem;
         }
 
     }

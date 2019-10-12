@@ -5,3 +5,4 @@ export const PLAY_LAST_SONG = "PLAY_LAST_SONG";
 export const PAUSE = "PAUSE";
 export const PLAY = "PLAY";
 export const FETCH_SONG_MP3_INFO = "FETCH_SONG_MP3_INFO";
+export const SHOW_PLAY_LIET = "SHOW_PLAY_LIET";

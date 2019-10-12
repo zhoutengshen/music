@@ -59,3 +59,10 @@ export const fetchSongMP3Action = ({ songId }) => {
         });
     }
 }
+
+export const showPlayListAction = ({ status = false }) => {
+    return {
+        type: actionType.SHOW_PLAY_LIET,
+        data: fromJS(status)
+    }
+}

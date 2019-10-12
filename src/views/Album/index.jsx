@@ -42,7 +42,7 @@ class Album extends React.Component {
             <TopBar description={description} onBack={onBack} />
             <Header {...{ coverImgUrl, playCount, name, nickname, avatarUrl, signature }} />
             <ToolBar {...{ commentCount, shareCount }} />
-            <SongList songInfoList={minxSongId(tracks, privileges)} />
+            <SongList albumSongInfoList={minxSongId(tracks, privileges)} />
         </Container>
     }
 }
