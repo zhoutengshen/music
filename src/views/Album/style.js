@@ -8,6 +8,22 @@ export const Container = styled.div`
     right:0;
     z-index:1000;
     background:#aaa;
+    overflow:auto;
+    transform-origin: right bottom;
+    &.fly-enter, &.fly-appear{
+        transform: translate3d(100%, 0, 0);
+    }
+    &.fly-enter-active, &.fly-appear-active{
+        transition: transform .3s;
+        transform: translate3d(0, 0, 0);
+    }
+    &.fly-exit{
+        transform: translate3d(0, 0, 0);
+    }
+    &.fly-exit-active{
+        transition: transform .3s;
+        transform: translate3d(100%, 0, 0);
+    }
 `;
 export const ImgCover = styled.div`
     position:absolute;

@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/no-distracting-elements */
 import React, { memo } from "react";
 import { TopBarWraper } from "./style";
-const Header = (props) => {
+const Header = React.forwardRef((props, ref) => {
     const { description, onBack } = props;
-    return <TopBarWraper>
+    return <TopBarWraper ref={ref}>
         <div className="left" onClick={onBack}>
             <i className="iconfont iconleft"></i>
         </div>
@@ -16,6 +16,5 @@ const Header = (props) => {
             <i className="iconfont iconmore"></i>
         </div>
     </TopBarWraper>
-}
-
+});
 export default memo(Header);

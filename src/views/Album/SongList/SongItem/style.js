@@ -3,7 +3,12 @@ export const ItemWraper = styled.div`
     position:relative;
     display:flex;
     height:4rem;
-    margin:1.6rem 0;
+    padding:0 1.6rem;
+    padding-top: 1.6rem;
+    background:${({ theme }) => {
+        const { palette } = theme;
+        return palette.background.default;
+    }};
     .iconlaba{
         color:red !important;
         font-size:1.7rem !important;
@@ -12,7 +17,8 @@ export const ItemWraper = styled.div`
     .left{
         font-size:1.6rem;
         line-height:4rem;
-        width:2.4rem;
+        min-width: 2.4rem;
+        margin-right: 0.8rem;
         color:${({ theme }) => theme.palette.text.secondary};
     }
     .mid{

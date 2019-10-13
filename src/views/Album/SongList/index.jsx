@@ -1,7 +1,8 @@
 import React, { memo } from "react";
 import { connect } from "react-redux";
+import ReactList from "react-list";
 import playerStore from "views/Plyaer/store";
-import { ListWraper } from "./style";
+import { ListWraper, Header } from "./style";
 import SongItem from "./SongItem";
 
 class SongList extends React.PureComponent {
@@ -56,24 +57,38 @@ class SongList extends React.PureComponent {
         const { reduceAlbumSongInfoList, changeMusicHandle } = this;
         let { albumSongInfoList } = props;
         albumSongInfoList = reduceAlbumSongInfoList(albumSongInfoList);
-        return <ListWraper>
-            <header className="header">
+        return <React.Fragment>
+            <Header>
                 <i className="iconfont iconplay play-all"></i>
                 <label>播放全部</label>
                 <div className="clt">
                     <i className="iconfont iconplus"></i>
                     <span className="clt-count">收藏(54万){" "}</span>
                 </div>
-            </header>
-            {
-                albumSongInfoList.map((songInfo = {}, index) =>
-                    // 性能提示 不要将这个函数注册写在 组件上，可以避免重复渲染
-                    <div onClick={() => { changeMusicHandle({ willPlaySongInfo: songInfo, albumSongInfoList: albumSongInfoList }) }} key={songInfo.songId}>
-                        <SongItem {...songInfo} index={index + 1} />
-                    </div>
-                )
-            }
-        </ListWraper>
+            </Header>
+            <ListWraper>
+                <ReactList
+                    itemRenderer={(index) => {
+                        const songInfo = albumSongInfoList[index] || {};
+                        // 性能提示 不要将这个函数注册写在 组件上，可以避免重复渲染
+                        return (<div onClick={() => { changeMusicHandle({ willPlaySongInfo: songInfo, albumSongInfoList: albumSongInfoList }) }} key={songInfo.songId}>
+                            <SongItem {...songInfo} index={index + 1} />
+                        </div>);
+                    }}
+                    length={albumSongInfoList.length}
+                    type='uniform'
+                >
+                </ReactList>
+                {/* {
+                    albumSongInfoList.map((songInfo = {}, index) =>
+
+                        <div onClick={() => { changeMusicHandle({ willPlaySongInfo: songInfo, albumSongInfoList: albumSongInfoList }) }} key={songInfo.songId}>
+                            <SongItem {...songInfo} index={index + 1} />
+                        </div>
+                    )
+                } */}
+            </ListWraper>
+        </React.Fragment>
     }
 }
 

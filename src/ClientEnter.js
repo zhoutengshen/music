@@ -9,6 +9,7 @@ import ResetCss from "style";
 import themeHoc from "hoc/themeHoc";
 import player from "views/Plyaer/index";
 import { reComputedClientWidth } from "utils";
+import "animate.css";
 const WithThemeApp = themeHoc((props) => {
   reComputedClientWidth();
   const { theme } = props;

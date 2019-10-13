@@ -1,10 +1,12 @@
 import styled from "styled-components";
 
 export const ToolBarWraper = styled.ul`
-    position:relative;
+    position: relative;
     display:flex;
     justify-content:space-around;
     align-items:center;
+    height:6rem;
+    box-sizing:border-box;
     padding: 0.8rem 0;
     a{
         color:#fff;

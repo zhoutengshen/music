@@ -2,7 +2,6 @@ export const debounce = function (func = () => { }, delay = 0) {
     let isWaiting = true;
     let timerId = -1;
     return function (...rest) {
-        console.log("?")
         clearTimeout(timerId);
         if (!isWaiting) {
             isWaiting = true;

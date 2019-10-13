@@ -1,16 +1,26 @@
 import styled from "styled-components";
 export const ListWraper = styled.div`
     position: relative;
+    height:calc(100vh - 11rem);
     background:${({ theme }) => {
         const { palette } = theme;
         return palette.background.default;
     }};
-    padding:0 1.6rem;
-    border-radius: 2rem 2rem 0 0;
-    .header{
-        height:5rem;
+
+`;
+export const Header = styled.header`
+        position: sticky;
+        top: 5rem;
+        /* ??? */
+        top: 4.9rem;
         align-items:center;
         display:flex;
+        background:#fff;
+        z-index:1;
+        height:6rem;
+        padding:0 1.6rem;
+        margin-top:-0.1rem;
+        border-radius:2rem 2rem 0 0;
         .play-all{
             width:2.4rem;
             font-size:2.6rem;
@@ -44,7 +54,5 @@ export const ListWraper = styled.div`
                 margin-right: 0.4rem;
                 margin-top: -0.1rem;
             }
-
-        }
     }
 `

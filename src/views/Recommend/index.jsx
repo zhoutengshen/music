@@ -39,7 +39,7 @@ class Recommend extends React.Component {
     }
     render() {
         const { props } = this;
-        const { fetchPersonalized } = props;
+        const { fetchPersonalized, location } = props;
         let { recommends, banners } = props;
         recommends = recommends.toJS();
         banners = banners.toJS();
@@ -57,6 +57,7 @@ class Recommend extends React.Component {
                     </div>
                 </Srcoll>
                 {renderRoutes(props.route.routes)}
+
             </RecommendWraper >
         );
     }

@@ -1,5 +1,8 @@
 import React from "react";
-// import { CSSTransition } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
+import tinycolor from "tinycolor2"
+import observedScrollPositionHoc from "hoc/observedScrollPositionHoc";
+import { withTheme } from "styled-components";
 import { Container, ImgCover } from "./style";
 import { fetchAlbumDetailAction } from "./store/actionCreator";
 import { KeepAlive, bindLifecycle } from "react-keep-alive";
@@ -16,20 +19,40 @@ const minxSongId = (tracks, privileges) => {
 };
 @bindLifecycle
 class Album extends React.Component {
+    state = {
+        showAlbum: true
+    }
     componentDidMount() {
         const { fetchAlbumDetail, id } = this.props;
         fetchAlbumDetail(id);
     }
     onBack = () => {
-        const { history } = this.props;
-        history.goBack();
+        this.setState({
+            showAlbum: false
+        });
+    }
+    topBarRef = React.createRef()
+    //observedScrollPositionHoc 回调该函数
+    scrolling = (position) => {
+        const { current } = this.topBarRef;
+        const { theme } = this.props;
+        const { main } = theme.palette.primary;
+        let alpha = (position.y - 50) / 150 > 1 ? 1 : (position.y - 50) / 150;
+        if (position.y < 50) {
+            alpha = 0
+        }
+        const color = tinycolor(main);
+        const rgba = color.setAlpha(alpha).toRgbString();
+        current.style.background = rgba;
+
     }
     componentDidActivate() {
         const { fetchAlbumDetail } = this.props;
         fetchAlbumDetail(this.props.id);
     }
     render() {
-        let { albumDetail } = this.props;
+        let { albumDetail, history } = this.props;
+        const { showAlbum } = this.state;
         const { onBack } = this;
         albumDetail = albumDetail.toJS();
         const { playlist, privileges } = albumDetail
@@ -37,16 +60,28 @@ class Album extends React.Component {
             playCount, name, commentCount, shareCount,
             creator = {}, tracks = [] } = playlist;
         const { nickname, avatarUrl, signature } = creator;
-        return <Container>
-            <ImgCover backgroundCoverUrl={backgroundCoverUrl || coverImgUrl} />
-            <TopBar description={description} onBack={onBack} />
-            <Header {...{ coverImgUrl, playCount, name, nickname, avatarUrl, signature }} />
-            <ToolBar {...{ commentCount, shareCount }} />
-            <SongList albumSongInfoList={minxSongId(tracks, privileges)} />
-        </Container>
+        return <CSSTransition
+            in={showAlbum}
+            timeout={300}
+            classNames="fly"
+            appear={true}
+            unmountOnExit
+            onExited={history.goBack}
+        >
+            <Container id="album">
+                <ImgCover backgroundCoverUrl={backgroundCoverUrl || coverImgUrl} />
+                <TopBar ref={this.topBarRef} description={description} onBack={onBack} />
+                <Header {...{ coverImgUrl, playCount, name, nickname, avatarUrl, signature }} />
+                <ToolBar {...{ commentCount, shareCount }} />
+                <SongList albumSongInfoList={minxSongId(tracks, privileges)} />
+            </Container>
+        </CSSTransition>
     }
 }
-
+//enhance
+const withThemeAlbum = withTheme(Album);//获取主题信息
+//函数增强 具有感知 滚动的能力
+const ObservedScrollPositionAlbum = observedScrollPositionHoc(withThemeAlbum, { selector: "#album", yRange: { start: 0, end: 300 } });
 //Redux
 const mapStateToProps = (state) => {
     const { albumDetail } = state;
@@ -61,7 +96,7 @@ const mapDipatchToPRops = (dispatch) => {
         }
     }
 }
-const AlbumReduxContrainer = connect(mapStateToProps, mapDipatchToPRops)(Album);
+const AlbumReduxContrainer = connect(mapStateToProps, mapDipatchToPRops)(ObservedScrollPositionAlbum);
 const KeepAliveAlbum = (props) => {
     //额外数据要附加在extra，尽管是路由的信息也会被缓存起来
     return <KeepAlive name="album" extra={{ id: props.match.params.id }}><AlbumReduxContrainer {...props} /></KeepAlive>;
