@@ -1,21 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import ladash from "lodash";
 import { throttle } from "lodash";
 
 class WatchScrollPosition extends React.PureComponent {
-    componentDidMount() {
-        let { selector, interval } = this.props.options;
-        const tags = selector ? document.querySelector(selector) : window;
-        const tag = Array.isArray(tags) ? tags[0] : tags;
-        this.scrollDom = tag;
-        this.scrollDom.addEventListener("scroll", throttle(this.scrollHandle, interval));
+
+    debounceScrolling = ladash.debounce(() => {
+        const tag = this.scrollDom;
+        console.log("Scrolling....")
         //回调
         this.callBack({
             y: tag.scrollTop,
             x: tag.scrollLeft
         });
-    }
-    isInRange(xRange, yRange, position) {
+    }, 50)
+    isInRange = (xRange, yRange, position) => {
+
         const { scrollLeft, scrollTop } = position;
         const rsult = { inXRange: false, inYRange: false };
         if (xRange.start < scrollLeft && scrollLeft < xRange.end) {
@@ -51,6 +51,21 @@ class WatchScrollPosition extends React.PureComponent {
                 y: scrollTop
             });
         }
+        //防抖函数
+        this.debounceScrolling();
+    }
+    componentDidMount() {
+        console.log(ReactDOM.findDOMNode(this));
+        let { selector, interval } = this.props.options;
+        const tags = selector ? document.querySelector(selector) : ReactDOM.findDOMNode(this);
+        const tag = Array.isArray(tags) ? tags[0] : tags;
+        this.scrollDom = tag;
+        this.scrollDom.addEventListener("scroll", throttle(this.scrollHandle, interval));
+        //回调
+        this.callBack({
+            y: tag.scrollTop,
+            x: tag.scrollLeft
+        });
     }
     componentWillUnmount() {
         this.scrollDom.removeEventListener("scroll", this.scrollHandle);

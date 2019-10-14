@@ -9,6 +9,7 @@ export const Container = styled.div`
     z-index:1000;
     background:#aaa;
     overflow:auto;
+    -webkit-overflow-scrolling: touch;
     transform-origin: right bottom;
     &.fly-enter, &.fly-appear{
         transform: translate3d(100%, 0, 0);

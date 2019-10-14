@@ -5,7 +5,6 @@ export const PlaySongListItemWraper = styled.div`
     padding: 1rem 0;
     min-width:0;
     align-items:center;
-
     .iconlaba{
         margin-right:0.8rem;
         font-size:1.8rem;
@@ -42,6 +41,7 @@ export const PlaySongListWraper = styled.div`
     background:#fff;
     border-radius:2rem 2rem 0 0;
     width:100vw;
+    -webkit-overflow-scrolling: touch;
 `;
 
 export const HeaderWraper = styled.div`
