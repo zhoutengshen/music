@@ -8,6 +8,7 @@ export const ToolBarWraper = styled.ul`
     height:6rem;
     box-sizing:border-box;
     padding: 0.8rem 0;
+    z-index:2;
     a{
         color:#fff;
         text-decoration:none;

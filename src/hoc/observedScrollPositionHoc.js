@@ -7,13 +7,14 @@ class WatchScrollPosition extends React.PureComponent {
 
     debounceScrolling = ladash.debounce(() => {
         const tag = this.scrollDom;
-        console.log("Scrolling....")
+        console.log(tag.scrollTop)
         //回调
         this.callBack({
             y: tag.scrollTop,
             x: tag.scrollLeft
         });
-    }, 50)
+        //防抖函数设置高点 是为了 兼顾低端机
+    }, 300)
     isInRange = (xRange, yRange, position) => {
 
         const { scrollLeft, scrollTop } = position;
@@ -51,6 +52,7 @@ class WatchScrollPosition extends React.PureComponent {
                 y: scrollTop
             });
         }
+        //有时候会滚动过快而错过某个值，我们延迟300ms（再派发一次position） 
         //防抖函数
         this.debounceScrolling();
     }
@@ -94,7 +96,7 @@ const defaultConfig = {
 
 /**
  * Component 组件
- * selector dom选择器 不提供默认为window
+ * selector dom选择器 不提供默认为当前传入组件
  * xRange :{start,end:} x 轴的监听范围
  * yRange:{start,end}  y 轴的监听范围
  * 位于区间内才会派发 position

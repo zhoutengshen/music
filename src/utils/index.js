@@ -1,3 +1,4 @@
+//防抖
 export const debounce = function (func = () => { }, delay = 0) {
     let isWaiting = true;
     let timerId = -1;
@@ -14,7 +15,7 @@ export const debounce = function (func = () => { }, delay = 0) {
 
     }
 }
-
+//节流
 export const throttl = function (func, delay) {
     let preTime = Number.MIN_VALUE;
     return function (...rest) {
@@ -26,7 +27,7 @@ export const throttl = function (func, delay) {
     }
 }
 
-
+//重置浏览器的baseFontSize
 export const reComputedClientWidth = () => {
     window.onresize = throttl(() => {
         const dcm = document.documentElement;
@@ -36,7 +37,7 @@ export const reComputedClientWidth = () => {
     }, 200);
 }
 
-
+//随机字符串
 export const ramdomStr = (
     () => {
         let ascalStr = "";
@@ -56,10 +57,10 @@ export const ramdomStr = (
         }
     }
 )();
-
+//设备判断
 export const deviceType = (() => {
     let type = "";
-    if (!global) {
+    if (global.window) {
         const useAgen = window.navigator.userAgent;
         const isIos = /.+iPhone.+/i;
         const isIpad = /.+iPad.+/i;
@@ -74,12 +75,13 @@ export const deviceType = (() => {
             type = "pc";
         }
     } else {
+        //非浏览器环境
         type = "pc"
     }
     return () => type;
 })();
 
-
+// 计算单位转换
 export const unitConver = (playCount, fixed = 2) => {
     if (playCount > 10000 * 10000) {
         return Number(playCount / 10000 / 10000).toFixed(fixed) + '亿'
@@ -89,3 +91,29 @@ export const unitConver = (playCount, fixed = 2) => {
         return playCount;
     }
 }
+
+
+export const pxToRem = (px) => {
+}
+// rem转化为px
+export const remToPx = (() => {
+    //映射表
+    const mapTable = {
+    }
+    //利用闭包特性缓存fontSize
+    let fontSize = undefined;
+    return (rem, cache = false) => {
+        if (mapTable[rem]) {
+            return mapTable[rem];
+        } else {
+            console.log(mapTable)
+            const remVal = parseFloat(rem);
+            fontSize = fontSize || document.documentElement.style.fontSize;
+            const reult = parseFloat(fontSize) * remVal;
+            mapTable[rem] = reult;
+            return reult;
+        }
+
+    }
+})();
+

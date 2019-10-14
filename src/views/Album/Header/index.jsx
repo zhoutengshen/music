@@ -1,10 +1,10 @@
 import React, { memo } from "react";
 import { HeaderWraper } from "./style";
 import { unitConver } from "utils"
-const Header = (props) => {
+const Header = React.forwardRef((props, ref) => {
     let { coverImgUrl, name, playCount, nickname, avatarUrl, signature = "" } = props;
     signature = signature.length > 16 ? signature.slice(0, 16).concat("...") : signature;
-    return <HeaderWraper>
+    return <HeaderWraper ref={ref}>
         <div className="album-cover">
             <img className="cover-img" src={coverImgUrl} alt="封面" />
             <span className="play-count">
@@ -25,5 +25,5 @@ const Header = (props) => {
             </div>
         </div>
     </HeaderWraper>
-}
+});
 export default memo(Header)

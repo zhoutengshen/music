@@ -2,7 +2,10 @@ import styled from "styled-components";
 export const HeaderWraper = styled.header`
     position:relative;
     display:flex;
+    height:15rem;
+    box-sizing: border-box
     padding:1.6rem;
+    z-index:2;
     &>.album-cover{
         position:relative;
         width:12rem;

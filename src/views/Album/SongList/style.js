@@ -16,7 +16,7 @@ export const Header = styled.header`
         align-items:center;
         display:flex;
         background:#fff;
-        z-index:1;
+        z-index:2;
         height:6rem;
         padding:0 1.6rem;
         margin-top:-0.1rem;

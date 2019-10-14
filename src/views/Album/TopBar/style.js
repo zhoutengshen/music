@@ -10,7 +10,7 @@ export const TopBarWraper = styled.div`
     padding:0 0.8rem;
     box-sizing: border-box;
     justify-content:space-around;
-    z-index:1;
+    z-index:3;
     color:#fff;
     & .iconfont{
         font-size:25px;

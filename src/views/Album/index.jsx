@@ -1,16 +1,18 @@
 import React from "react";
 import { CSSTransition } from "react-transition-group";
-import tinycolor from "tinycolor2"
+// import tinycolor from "tinycolor2";
 import observedScrollPositionHoc from "hoc/observedScrollPositionHoc";
 import { withTheme } from "styled-components";
 import { Container, ImgCover } from "./style";
 import { fetchAlbumDetailAction } from "./store/actionCreator";
 import { KeepAlive, bindLifecycle } from "react-keep-alive";
 import { connect } from "react-redux";
+import { remToPx } from "utils";
 import TopBar from "./TopBar";
 import Header from "./Header";
 import ToolBar from "./ToolBar";
 import SongList from "./SongList";
+import { from } from "rxjs";
 const minxSongId = (tracks, privileges) => {
     for (let i = 0; i < tracks.length; i++) {
         tracks[i].songId = privileges[i].id;
@@ -28,18 +30,42 @@ class Album extends React.Component {
         });
     }
     topBarRef = React.createRef()
+    toolBarRef = React.createRef()
+    headerRed = React.createRef()
+    imgCoverRef = React.createRef()
     //observedScrollPositionHoc 回调该函数
     scrolling = (position) => {
-        const { current } = this.topBarRef;
-        const { theme } = this.props;
-        const { main } = theme.palette.primary;
-        let alpha = (position.y - 50) / 150 > 1 ? 1 : (position.y - 50) / 150;
-        if (position.y < 50) {
-            alpha = 0
+        // const { current } = this.topBarRef;
+        // const { theme } = this.props;
+        // const { main } = theme.palette.primary;
+        // let alpha = (position.y - 50) / 150 > 1 ? 1 : (position.y - 50) / 150;
+        // if (position.y < 50) {
+        //     alpha = 0
+        // }
+        // const color = tinycolor(main);
+        // const rgba = color.setAlpha(alpha).toRgbString();
+        // current.style.background = rgba;
+        if (position.y <= remToPx("5rem")) {
+            const pst = position.y / remToPx("5rem");
+            this.headerRed.current.style.opacity = 1 - pst + 0.1;
+            this.imgCoverRef.current.style.filter = `blur(50px)`;
         }
-        const color = tinycolor(main);
-        const rgba = color.setAlpha(alpha).toRgbString();
-        current.style.background = rgba;
+        if (position.y >= remToPx("15rem")) {
+            const pst = (position.y - remToPx("15rem")) / remToPx("5rem");
+            this.toolBarRef.current.style.opacity = 1 - pst;
+            this.imgCoverRef.current.style.height = remToPx("10rem") + 'px';
+            this.imgCoverRef.current.style.filter = `blur(${remToPx("5rem") - position.y + remToPx("15rem")}px)`;
+        } else {
+            this.toolBarRef.current.style.opacity = 1;
+            this.imgCoverRef.current.style.height = remToPx("33rem") + 'px';
+            this.imgCoverRef.current.style.filter = `blur(50px)`;
+        }
+        if (position.y > remToPx("20rem")) {
+            this.imgCoverRef.current.style.zIndex = 2;
+            this.imgCoverRef.current.style.filter = `blur(0px)`;
+        } else {
+            this.imgCoverRef.current.style.zIndex = 0;
+        }
     }
     fetchData = () => {
         const { fetchAlbumDetail, id } = this.props;
@@ -76,10 +102,10 @@ class Album extends React.Component {
             onExited={history.goBack}
         >
             <Container id="album">
-                <ImgCover backgroundCoverUrl={backgroundCoverUrl || coverImgUrl} />
+                <ImgCover ref={this.imgCoverRef} backgroundCoverUrl={backgroundCoverUrl || coverImgUrl} />
                 <TopBar ref={this.topBarRef} description={description} onBack={onBack} />
-                <Header {...{ coverImgUrl, playCount, name, nickname, avatarUrl, signature }} />
-                <ToolBar {...{ commentCount, shareCount }} />
+                <Header ref={this.headerRed} {...{ coverImgUrl, playCount, name, nickname, avatarUrl, signature }} />
+                <ToolBar ref={this.toolBarRef} {...{ commentCount, shareCount }} />
                 <SongList albumSongInfoList={minxSongId(tracks, privileges)} />
             </Container>
         </CSSTransition>
@@ -88,7 +114,7 @@ class Album extends React.Component {
 //enhance
 const withThemeAlbum = withTheme(Album);//获取主题信息
 //函数增强 具有感知 滚动的能力
-const ObservedScrollPositionAlbum = observedScrollPositionHoc(withThemeAlbum, { yRange: { start: 0, end: 500 } });
+const ObservedScrollPositionAlbum = observedScrollPositionHoc(withThemeAlbum);
 //Redux
 const mapStateToProps = (state) => {
     const { albumDetail } = state;

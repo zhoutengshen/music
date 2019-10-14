@@ -27,10 +27,13 @@ export const Container = styled.div`
     }
 `;
 export const ImgCover = styled.div`
-    position:absolute;
-     background:${({ backgroundCoverUrl }) => "url(" + backgroundCoverUrl + ")"};
+    position:fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background:${({ backgroundCoverUrl }) => "url(" + backgroundCoverUrl + ")"};
     background-size: cover;
     filter: blur(50px);
-    height:100%;
-    width:100%;
+    height: 32rem;
+ 
 `
