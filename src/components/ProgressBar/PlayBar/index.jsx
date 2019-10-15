@@ -46,11 +46,15 @@ class PlayBarCircleProgressBar extends React.PureComponent {
         }
     }
     computedSongTime = () => {
-        let { currentPlayingSongMp3Info } = this.props;
-        currentPlayingSongMp3Info = currentPlayingSongMp3Info.toJS();
+        let { currentPlayingSong } = this.props;
+        currentPlayingSong = currentPlayingSong.toJS();
+        const { mp3Info } = currentPlayingSong;
+        if (!mp3Info) {
+            return 0;
+        }
         // （音频编码率（Kbit为单位）/8 + 视频编码率（Kbit为单位）/8）× 影片总长度（秒为单位）= 文件大小（KB为单位）
         //time = size / (br / 8) = size / br * 8 
-        const { size, br } = currentPlayingSongMp3Info;
+        const { size, br } = mp3Info;
         return size / br * 8;
     }
     changeIconStyle = () => {
@@ -59,11 +63,11 @@ class PlayBarCircleProgressBar extends React.PureComponent {
         if (!circle) {
             return;
         }
-        if (this.currentPlayingSongMp3Info === undefined) {
+        if (this.currentPlayingSong === undefined) {
             //首次
-            this.currentPlayingSongMp3Info = this.props.currentPlayingSongMp3Info;
-        } else if (this.currentPlayingSongMp3Info !== this.props.currentPlayingSongMp3Info) {
-            this.currentPlayingSongMp3Info = this.props.currentPlayingSongMp3Info;
+            this.currentPlayingSong = this.props.currentPlayingSong;
+        } else if (this.currentPlayingSong !== this.props.currentPlayingSong) {
+            this.currentPlayingSong = this.props.currentPlayingSong;
             circle.set(0);
         }
         const className = isPause ? "iconfont iconbar-play" : "iconfont iconbar-pause";
@@ -84,8 +88,6 @@ class PlayBarCircleProgressBar extends React.PureComponent {
         const { isPause, playOrPauseFunc } = this.props;
         playOrPauseFunc(isPause);
     }
-    isChangeSong = () => {
-    }
     render() {
         const { playOrPauseHandle, changeIconStyle } = this;
         changeIconStyle();
@@ -98,7 +100,7 @@ const mapStateToProps = (state) => {
     const { player } = state;
     return {
         isPause: player.get("pause"),
-        currentPlayingSongMp3Info: player.get("currentPlayingSongMp3Info")
+        currentPlayingSong: player.get("currentPlayingSong")
     }
 }
 const mapDispatchToProps = (dispatch) => {
