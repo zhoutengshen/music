@@ -57,7 +57,6 @@ class WatchScrollPosition extends React.PureComponent {
         this.debounceScrolling();
     }
     componentDidMount() {
-        console.log(ReactDOM.findDOMNode(this));
         let { selector, interval } = this.props.options;
         const tags = selector ? document.querySelector(selector) : ReactDOM.findDOMNode(this);
         const tag = Array.isArray(tags) ? tags[0] : tags;

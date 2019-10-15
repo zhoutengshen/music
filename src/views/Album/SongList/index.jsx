@@ -38,13 +38,12 @@ class SongList extends React.PureComponent {
         return albumSongInfoList;
     }
     changeMusicHandle = ({ willPlaySongInfo, albumSongInfoList }) => {
-        const { changeSongAction, playAction, changeSongPlayListListAction, fetchSongMP3Action } = this.props;
+        const { changeSongAction, playAction, changeSongPlayListListAction } = this.props;
         const { isSelect } = willPlaySongInfo;
         //点击的项没播放
         if (!isSelect) {
             changeSongAction({ song: willPlaySongInfo });
             playAction();
-            fetchSongMP3Action({ songId: willPlaySongInfo.songId });
         }
         //判断将要播放的歌曲是否在当前播放列表
         const playList = this.props.playList.toJS();
@@ -116,9 +115,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeSongPlayListListAction({ albumSongInfoList }) {
             dispatch(actions.changeSongPlayListListAction({ playList: albumSongInfoList }))
-        },
-        fetchSongMP3Action({ songId }) {
-            dispatch(actions.fetchSongMP3Action({ songId }))
         }
     }
 }

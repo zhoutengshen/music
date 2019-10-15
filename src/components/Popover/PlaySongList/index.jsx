@@ -78,7 +78,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         changeSongAction({ song }) {
             dispatch(actions.changeSongAction({ song }));
-            dispatch(actions.fetchSongMP3Action({ songId: song.songId }));
         },
         hiddenPlayListAction() {
             dispatch(actions.showPlayListAction(false));

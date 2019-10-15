@@ -5,7 +5,6 @@ const defalutState = fromJS({
     songDetail: {},
     playList: [],
     pause: true,
-    currentPlayingSongMp3Info: {},
     showPlayList: false
 });
 export default (state = defalutState, action) => {
@@ -22,8 +21,6 @@ export default (state = defalutState, action) => {
             return state.set("songDetail", action.data);
         case actionTypes.PLAY_NEXT_SONG:
             return state.set("songDetail", action.data);
-        case actionTypes.FETCH_SONG_MP3_INFO:
-            return state.set("currentPlayingSongMp3Info", action.data);
         case actionTypes.SHOW_PLAY_LIET:
             return state.set("showPlayList", action.data);
         default:

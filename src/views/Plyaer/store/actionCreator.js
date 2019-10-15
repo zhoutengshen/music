@@ -23,11 +23,32 @@ export const playAction = () => {
         type: actionType.PLAY
     }
 }
+
+
 //更新播放列表
 export const changeSongPlayListListAction = ({ playList = [] }) => {
-    return {
-        type: actionType.CHANGE_PLAY_LIST,
-        data: fromJS(playList)
+    const ids = playList.map(song => song.songId);
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            fetchSonsDetailApi({ ids: [...ids] }).then(({ data }) => {
+                const map3Infos = data.data;
+                for (let i = 0; i < playList.length; i++) {
+                    const songId = playList[i].songId;
+                    for (let j = 0; j < map3Infos.length; j++) {
+                        const mp3Id = map3Infos[j].id;
+                        if (songId === mp3Id) {
+                            playList[i].mp3Info = map3Infos[j];
+                            break;
+                        }
+                    }
+                }
+                dispatch({
+                    type: actionType.CHANGE_PLAY_LIST,
+                    data: fromJS(playList)
+                })
+                resolve(data);
+            });
+        });
     }
 }
 
@@ -43,20 +64,6 @@ export const changeSongAction = ({ song = {} }) => {
 export const addOneSongToPlayHisttoryAction = () => {
     return {
 
-    }
-}
-//
-export const fetchSongMP3Action = ({ songId }) => {
-    return dispatch => {
-        return new Promise((resolve, reject) => {
-            fetchSonsDetailApi({ id: songId }).then(({ data }) => {
-                dispatch({
-                    type: actionType.FETCH_SONG_MP3_INFO,
-                    data: fromJS(data.data[0])
-                })
-                resolve(data);
-            });
-        });
     }
 }
 
