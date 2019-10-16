@@ -7,7 +7,7 @@ import routesConfig from "routes";
 import { Provider as RouterKeepProvider } from "react-keep-alive";
 import ResetCss from "style";
 import themeHoc from "hoc/themeHoc";
-import player from "views/Plyaer/index";
+import player from "components/Plyaer";
 import { reComputedClientWidth } from "utils";
 import "animate.css";
 const WithThemeApp = themeHoc((props) => {
@@ -22,8 +22,8 @@ const WithThemeApp = themeHoc((props) => {
             <RouterKeepProvider>
               {renderRoutes(routesConfig)}
             </RouterKeepProvider>
+            <player.PlayerBar></player.PlayerBar>
           </Router>
-          <player.PlayerBar></player.PlayerBar>
           <player.AudioPlayer></player.AudioPlayer>
         </div>
       </ThemeProvider>

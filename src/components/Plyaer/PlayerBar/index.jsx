@@ -1,23 +1,23 @@
 import React, { memo } from "react";
 import { PlayerBarWraper } from "./style";
 import PlayBarLyrics from "components/Lyrics/Mini";
-import playerStore from "views/Plyaer/store";
+import playerStore from "components/Plyaer/store";
+import { withRouter } from "react-router-dom";
 import PlayBarCircleProgressBar from "components/ProgressBar/PlayBar";
 import PlaySongList from "components/Popover/PlaySongList";
 import { connect } from "react-redux";
-
 const PlayerBar = (props) => {
-    let { currentPlayingSong } = props;
+    let { currentPlayingSong, history } = props;
     const { showPlayListAction } = props;
     currentPlayingSong = currentPlayingSong.toJS();
     let { picUrl, albumName, artistNames, songAlia, songName } = currentPlayingSong;
     let isShowBar = picUrl && songName;
     songAlia = songAlia ? ` (${songAlia}) ` : songAlia;
     return isShowBar ? <PlayerBarWraper>
-        <div className="left">
+        <div className="left" onClick={() => { history.push("/player") }}>
             <img src={picUrl} alt="" />
         </div>
-        <div className="mid">
+        <div className="mid" onClick={() => { history.push("/player") }}>
             <p className="songName">{songName}{songAlia}</p>
             <div className="lyrics">
                 <PlayBarLyrics />
@@ -33,7 +33,6 @@ const PlayerBar = (props) => {
 }
 
 //Redux 
-
 const mapStateToProps = (state) => {
     const { player } = state;
     const currentPlayingSong = player.get("currentPlayingSong");
@@ -48,4 +47,4 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(memo(PlayerBar))
+export default connect(mapStateToProps, mapDispatchToProps)(memo(withRouter(PlayerBar)))

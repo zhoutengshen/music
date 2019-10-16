@@ -5,7 +5,7 @@ import observedScrollPositionHoc from "hoc/observedScrollPositionHoc";
 import { withTheme } from "styled-components";
 import { Container, ImgCover } from "./style";
 import { fetchAlbumDetailAction } from "./store/actionCreator";
-import { KeepAlive, bindLifecycle } from "react-keep-alive";
+import { KeepAlive } from "react-keep-alive";
 import { connect } from "react-redux";
 import { remToPx } from "utils";
 import TopBar from "./TopBar";
@@ -93,8 +93,8 @@ class Album extends React.Component {
         const { nickname, avatarUrl, signature } = creator;
         return <CSSTransition
             in={showAlbum}
-            timeout={300}
-            classNames="fly"
+            timeout={200}
+            classNames="fade"
             appear={true}
             unmountOnExit={true}
             onEntered={fetchData}

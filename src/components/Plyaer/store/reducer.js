@@ -5,7 +5,8 @@ const defalutState = fromJS({
     songDetail: {},
     playList: [],
     pause: true,
-    showPlayList: false
+    showPlayList: false,
+    songTimeInfo: 0
 });
 export default (state = defalutState, action) => {
     switch (action.type) {
@@ -23,6 +24,8 @@ export default (state = defalutState, action) => {
             return state.set("songDetail", action.data);
         case actionTypes.SHOW_PLAY_LIET:
             return state.set("showPlayList", action.data);
+        case actionTypes.CURRENT_TIME_CHANGE:
+            return state.set("songTimeInfo", action.data)
         default:
             return state;
     }

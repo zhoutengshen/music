@@ -54,4 +54,36 @@ html,body{
 	 */
 	font-size:${baseFontSize}px;
 }
+
+/* //全局动画 */
+.bottom-pop-enter, .bottom-pop-appear{
+        transform: translate(0,100%);
+    }
+    .bottom-pop-enter-active, .bottom-pop-appear-active{
+        transition: transform .3s;
+        transform: translate(0,0);
+    }
+    .bottom-pop-exit{
+        transform: translate(0,0);
+    }
+    .bottom-pop-exit-active{
+        transition: transform .3s;
+        transform: translate(0,100%);
+}
+
+.fade-enter, .fade-appear{
+        opacity:0;
+    }
+    .fade-enter-active, .fade-appear-active{
+        transition: all .2s;
+        opacity:1;
+    }
+    .fade-exit{
+        opacity:1;
+    }
+    .fade-exit-active{
+        transition: all .2s;
+
+        opacity:0;
+    }
 `;

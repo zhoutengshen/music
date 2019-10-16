@@ -25,6 +25,15 @@ export const playAction = () => {
 }
 
 
+export const currentTimeChangeAction = ({ currentTime, duration }) => {
+    return {
+        type: actionType.CURRENT_TIME_CHANGE,
+        data: fromJS({
+            currentTime, duration
+        })
+    }
+}
+
 //更新播放列表
 export const changeSongPlayListListAction = ({ playList = [] }) => {
     const ids = playList.map(song => song.songId);

@@ -1,7 +1,7 @@
 import React from "react";
 import propTyps from "prop-types";
 import ProgressBar from "progressbar.js";
-import playerStore from "views/Plyaer/store"
+import playerStore from "components/Plyaer/store";
 import { connect } from "react-redux";
 // isPause 为当前状态，图标表示下一个状态
 class PlayBarCircleProgressBar extends React.PureComponent {
@@ -45,30 +45,11 @@ class PlayBarCircleProgressBar extends React.PureComponent {
             this.circle.stop();
         }
     }
-    computedSongTime = () => {
-        let { currentPlayingSong } = this.props;
-        currentPlayingSong = currentPlayingSong.toJS();
-        const { mp3Info } = currentPlayingSong;
-        if (!mp3Info) {
-            return 0;
-        }
-        // （音频编码率（Kbit为单位）/8 + 视频编码率（Kbit为单位）/8）× 影片总长度（秒为单位）= 文件大小（KB为单位）
-        //time = size / (br / 8) = size / br * 8 
-        const { size, br } = mp3Info;
-        return size / br * 8;
-    }
     changeIconStyle = () => {
         const { isPause } = this.props;
         const { circle } = this;
         if (!circle) {
             return;
-        }
-        if (this.currentPlayingSong === undefined) {
-            //首次
-            this.currentPlayingSong = this.props.currentPlayingSong;
-        } else if (this.currentPlayingSong !== this.props.currentPlayingSong) {
-            this.currentPlayingSong = this.props.currentPlayingSong;
-            circle.set(0);
         }
         const className = isPause ? "iconfont iconbar-play" : "iconfont iconbar-pause";
         this.circle.text.className = className;
@@ -76,11 +57,9 @@ class PlayBarCircleProgressBar extends React.PureComponent {
             circle.text.style.marginLeft = "0.15rem";
             circle.stop();
         } else {
-            const time = this.computedSongTime();
-            //歌曲发生变化重置进度条
-            circle.animate(1, {
-                duration: 1000 * time
-            });
+            const songTimeInfo = this.props.songTimeInfo.toJS();
+            const { currentTime, duration } = songTimeInfo;
+            circle.set(currentTime / duration);
             circle.text.style.marginLeft = "0";
         }
     }
@@ -100,7 +79,7 @@ const mapStateToProps = (state) => {
     const { player } = state;
     return {
         isPause: player.get("pause"),
-        currentPlayingSong: player.get("currentPlayingSong")
+        songTimeInfo: player.get("songTimeInfo")
     }
 }
 const mapDispatchToProps = (dispatch) => {

@@ -1,7 +1,7 @@
 import React from "react";
-import plyaerStore from "views/Plyaer/store";
+import plyaerStore from "components/Plyaer/store";
 import { connect } from "react-redux";
-
+import lodash from "lodash";
 const PLAY_MODE = {
     normal: "normal",
     listLoop: "listLoop",
@@ -39,8 +39,10 @@ class AudioPlayer extends React.PureComponent {
                 return;
             }
             const { current } = this.audioRef;
-            current.pause();
-            current.src = url;
+            if (current.src !== url) {
+                current.pause();
+                current.src = url;
+            }
             current.play();
             return true;
         } else {
@@ -70,7 +72,6 @@ class AudioPlayer extends React.PureComponent {
             nextIndex = currentIndex + 1;
         }
         this.currentPlayingSong = this.playList[nextIndex];
-        console.log(this.currentPlayingSong)
         changeSongAction({ song: this.currentPlayingSong });
         return this.play();
     }
@@ -90,12 +91,21 @@ class AudioPlayer extends React.PureComponent {
         const { current } = this.audioRef;
         current.pause();
     }
-    onended = () => {
+    onEnded = () => {
         this.next(true);
     }
-
+    //当前播放时间发生改变将回调该函数
+    onTimeupdate = () => {
+        const { currentTimeChangeAction } = this.props;
+        const { current } = this.audioRef;
+        if (!current) {
+            return;
+        }
+        currentTimeChangeAction({ currentTime: current.currentTime, duration: current.duration });
+    }
     componentDidMount() {
-        this.audioRef.current.addEventListener("ended", this.onended);
+        this.audioRef.current.addEventListener("ended", this.onEnded);
+        this.audioRef.current.addEventListener("timeupdate", this.onTimeupdate);
     }
     componentWillReceiveProps(nextProps) {
         //更新了播放列表
@@ -138,21 +148,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToprops = (dispatch) => {
     const { actions } = plyaerStore;
     return {
-        pauseAction() {
-            dispatch(actions.pauseAction());
-        },
-        playAction() {
-            dispatch(actions.playAction)
-        },
-        nextAction() {
-            dispatch(actions.nextAction());
-        },
-        previouAction() {
-            dispatch(actions.previouAction())
-        },
         changeSongAction({ song }) {
             dispatch(actions.changeSongAction({ song }))
-        }
+        },
+        //节流，避免给
+        currentTimeChangeAction: lodash.throttle(({ currentTime, duration }) => {
+            dispatch(actions.currentTimeChangeAction({ currentTime, duration }));
+        }, 1000)
     }
 }
 export default connect(mapStateToProps, mapDispatchToprops)(AudioPlayer);

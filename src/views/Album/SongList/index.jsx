@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { connect } from "react-redux";
 import ReactList from "react-list";
-import playerStore from "views/Plyaer/store";
+import playerStore from "components/Plyaer/store";
 import { ListWraper, Header } from "./style";
 import SongItem from "./SongItem";
 
@@ -78,14 +78,6 @@ class SongList extends React.PureComponent {
                     type='uniform'
                 >
                 </ReactList>
-                {/* {
-                    albumSongInfoList.map((songInfo = {}, index) =>
-
-                        <div onClick={() => { changeMusicHandle({ willPlaySongInfo: songInfo, albumSongInfoList: albumSongInfoList }) }} key={songInfo.songId}>
-                            <SongItem {...songInfo} index={index + 1} />
-                        </div>
-                    )
-                } */}
             </ListWraper>
         </React.Fragment>
     }
