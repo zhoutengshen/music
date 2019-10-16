@@ -8,6 +8,10 @@ import Album from "views/Album";
 import Player from "views/Player";
 let routesConfigs = [
     {
+        path: '/player',
+        component: Player
+    },
+    {
         path: "/",
         component: Home,
         routes: [
@@ -37,10 +41,6 @@ let routesConfigs = [
                 component: Rank
             }
         ]
-    },
-    {
-        path: '/player',
-        component: Player
     }
 ]
 export default routesConfigs;

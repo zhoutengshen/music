@@ -71,6 +71,21 @@ html,body{
         transform: translate(0,100%);
 }
 
+.right-pop-enter, .right-pop-appear{
+        transform: translate(100%,0);
+    }
+    .right-pop-enter-active, .right-pop-appear-active{
+        transition: transform .3s;
+        transform: translate(0,0);
+    }
+    .right-pop-exit{
+        transform: translate(0,0);
+    }
+    .right-pop-exit-active{
+        transition: transform .3s;
+        transform: translate(100%,0);
+}
+
 .fade-enter, .fade-appear{
         opacity:0;
     }
@@ -86,4 +101,5 @@ html,body{
 
         opacity:0;
     }
+
 `;

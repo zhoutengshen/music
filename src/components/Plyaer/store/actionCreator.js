@@ -82,3 +82,18 @@ export const showPlayListAction = ({ status = false }) => {
         data: fromJS(status)
     }
 }
+
+
+export const showPlayerBarAction = () => {
+    return {
+        type: actionType.SHOW_PLAYER_BAR,
+        data: true
+    }
+}
+
+export const hiddenPlayerBarAction = () => {
+    return {
+        type: actionType.HIDDEN_PLAYER_BAR,
+        data: false
+    }
+}

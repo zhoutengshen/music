@@ -15,11 +15,12 @@ export const Container = styled.div`
 export const ImgCover = styled.div`
     position:fixed;
     width: 100%;
+    height: 32rem;
     top: 0;
     left: 0;
     background:${({ backgroundCoverUrl }) => "url(" + backgroundCoverUrl + ")"};
     background-size: cover;
-    filter: blur(50px);
-    height: 32rem;
+    filter: blur(60px) sepia(100%);
+    
  
 `

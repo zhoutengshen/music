@@ -7,13 +7,13 @@ import PlayBarCircleProgressBar from "components/ProgressBar/PlayBar";
 import PlaySongList from "components/Popover/PlaySongList";
 import { connect } from "react-redux";
 const PlayerBar = (props) => {
-    let { currentPlayingSong, history } = props;
+    let { currentPlayingSong, history, visiblePlayBar } = props;
     const { showPlayListAction } = props;
     currentPlayingSong = currentPlayingSong.toJS();
     let { picUrl, albumName, artistNames, songAlia, songName } = currentPlayingSong;
     let isShowBar = picUrl && songName;
     songAlia = songAlia ? ` (${songAlia}) ` : songAlia;
-    return isShowBar ? <PlayerBarWraper>
+    return isShowBar && visiblePlayBar ? <PlayerBarWraper>
         <div className="left" onClick={() => { history.push("/player") }}>
             <img src={picUrl} alt="" />
         </div>
@@ -36,8 +36,10 @@ const PlayerBar = (props) => {
 const mapStateToProps = (state) => {
     const { player } = state;
     const currentPlayingSong = player.get("currentPlayingSong");
+    const visiblePlayBar = player.get("visiblePlayBar");
     return {
-        currentPlayingSong: currentPlayingSong
+        currentPlayingSong: currentPlayingSong,
+        visiblePlayBar: visiblePlayBar
     }
 }
 const mapDispatchToProps = (dispatch) => {

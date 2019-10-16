@@ -32,18 +32,7 @@ class Album extends React.Component {
     toolBarRef = React.createRef()
     headerRed = React.createRef()
     imgCoverRef = React.createRef()
-    //observedScrollPositionHoc 回调该函数
     scrolling = (position) => {
-        // const { current } = this.topBarRef;
-        // const { theme } = this.props;
-        // const { main } = theme.palette.primary;
-        // let alpha = (position.y - 50) / 150 > 1 ? 1 : (position.y - 50) / 150;
-        // if (position.y < 50) {
-        //     alpha = 0
-        // }
-        // const color = tinycolor(main);
-        // const rgba = color.setAlpha(alpha).toRgbString();
-        // current.style.background = rgba;
         if (position.y <= remToPx("5rem")) {
             const pst = position.y / remToPx("5rem");
             this.headerRed.current.style.opacity = 1 - pst + 0.1;
