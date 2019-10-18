@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { connect } from "react-redux";
 import ReactList from "react-list";
-import playerStore from "components/Plyaer/store";
+import playerStore from "views/Player/store";
 import { ListWraper, Header } from "./style";
 import SongItem from "./SongItem";
 

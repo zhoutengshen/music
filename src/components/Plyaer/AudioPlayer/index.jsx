@@ -1,7 +1,4 @@
 import React from "react";
-import plyaerStore from "components/Plyaer/store";
-import { connect } from "react-redux";
-import lodash from "lodash";
 const PLAY_MODE = {
     normal: "normal",
     listLoop: "listLoop",
@@ -96,12 +93,6 @@ class AudioPlayer extends React.PureComponent {
     }
     //当前播放时间发生改变将回调该函数
     onTimeupdate = () => {
-        const { currentTimeChangeAction } = this.props;
-        const { current } = this.audioRef;
-        if (!current) {
-            return;
-        }
-        currentTimeChangeAction({ currentTime: current.currentTime, duration: current.duration });
     }
     componentDidMount() {
         this.audioRef.current.addEventListener("ended", this.onEnded);
@@ -132,29 +123,4 @@ class AudioPlayer extends React.PureComponent {
         return <audio ref={this.audioRef} style={{ display: 'none' }}></audio>;
     }
 }
-
-
-//Redux
-const mapStateToProps = (state) => {
-    const { player } = state;
-    window.player = player;
-    return {
-        playList: player.get("playList"),
-        willPlaySong: player.get("currentPlayingSong"),
-        pause: player.get("pause")
-    }
-}
-
-const mapDispatchToprops = (dispatch) => {
-    const { actions } = plyaerStore;
-    return {
-        changeSongAction({ song }) {
-            dispatch(actions.changeSongAction({ song }))
-        },
-        //节流，避免给
-        currentTimeChangeAction: lodash.throttle(({ currentTime, duration }) => {
-            dispatch(actions.currentTimeChangeAction({ currentTime, duration }));
-        }, 1000)
-    }
-}
-export default connect(mapStateToProps, mapDispatchToprops)(AudioPlayer);
+export default AudioPlayer;

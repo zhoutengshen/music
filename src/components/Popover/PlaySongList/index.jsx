@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { CSSTransition } from "react-transition-group";
 import { connect } from "react-redux";
 import ReactList from "react-list";
-import playerStore from "components/Plyaer/store";
+import playerStore from "views/Player/store";
 import Modal from "base-ui/Modal";
 import { PlaySongListItemWraper, PlaySongListWraper, HeaderWraper } from "./style";
 const PlaySongListItem = (props) => {

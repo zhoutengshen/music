@@ -9,7 +9,8 @@ export const RecordWraper = styled.div`
         align-items: center;
         padding-top:10rem;
         .img{
-            width: 60%;
+            width: 60vw;
+            height:60vw;
             border-radius:50%;
             border: 0.5rem solid #666;
             animation:imgrotate 10s linear infinite;

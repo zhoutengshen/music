@@ -1,16 +1,6 @@
 import * as actionType from "./constants";
-import { fetchSonsDetailApi } from "api/song";
+import { fetchMuiltSongMp3InfoApi, fetchSongDetailApi } from "api/song";
 import { fromJS } from "immutable";
-export const playNextSongAction = () => {
-    return {
-        type: actionType.PLAY_NEXT_SONG
-    }
-}
-export const playLastSongAction = () => {
-    return {
-        type: actionType.PLAY_LAST_SONG
-    }
-}
 
 export const pauseAction = () => {
     return {
@@ -25,13 +15,19 @@ export const playAction = () => {
 }
 
 
-export const currentTimeChangeAction = ({ currentTime, duration }) => {
-    return {
-        type: actionType.CURRENT_TIME_CHANGE,
-        data: fromJS({
-            currentTime, duration
-        })
+export const fetchSongDetailAction = ({ ids = [] }) => {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            fetchSongDetailApi({ ids }).then(({ data }) => {
+                dispatch({
+                    type: actionType.FETCH_SONG_DETAIL,
+                    data: fromJS(data)
+                });
+                resolve(data);
+            });
+        });
     }
+
 }
 
 //更新播放列表
@@ -39,7 +35,7 @@ export const changeSongPlayListListAction = ({ playList = [] }) => {
     const ids = playList.map(song => song.songId);
     return dispatch => {
         return new Promise((resolve, reject) => {
-            fetchSonsDetailApi({ ids: [...ids] }).then(({ data }) => {
+            fetchMuiltSongMp3InfoApi({ ids: [...ids] }).then(({ data }) => {
                 const map3Infos = data.data;
                 for (let i = 0; i < playList.length; i++) {
                     const songId = playList[i].songId;
@@ -66,34 +62,5 @@ export const changeSongAction = ({ song = {} }) => {
     return {
         type: actionType.CHANGE_SONG,
         data: fromJS(song)
-    }
-}
-
-//添加一条数据到历史播放列表
-export const addOneSongToPlayHisttoryAction = () => {
-    return {
-
-    }
-}
-
-export const showPlayListAction = ({ status = false }) => {
-    return {
-        type: actionType.SHOW_PLAY_LIET,
-        data: fromJS(status)
-    }
-}
-
-
-export const showPlayerBarAction = () => {
-    return {
-        type: actionType.SHOW_PLAYER_BAR,
-        data: true
-    }
-}
-
-export const hiddenPlayerBarAction = () => {
-    return {
-        type: actionType.HIDDEN_PLAYER_BAR,
-        data: false
     }
 }

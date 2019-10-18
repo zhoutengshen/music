@@ -1,5 +1,6 @@
-import PlayerBar from "./PlayerBar";
-import AudioPlayer from "./AudioPlayer"
-export default {
-    PlayerBar, AudioPlayer
-}
+import MiniPlayerBarTem from "./MiniPlayerBar";
+import AudioPlayerTem from "./AudioPlayer"
+import NormalPlayBarTemp from "./NormalPlayBar";
+export const MiniPlayerBar = MiniPlayerBarTem;
+export const AudioPlayer = AudioPlayerTem;
+export const NormalPlayBar = NormalPlayBarTemp;

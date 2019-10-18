@@ -5,12 +5,7 @@ import Recommend from "views/Recommend";
 import Rank from "views/Rank";
 import Singers from "views/Singers";
 import Album from "views/Album";
-import Player from "views/Player";
 let routesConfigs = [
-    {
-        path: '/player',
-        component: Player
-    },
     {
         path: "/",
         component: Home,

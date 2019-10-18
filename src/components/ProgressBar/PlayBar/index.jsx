@@ -1,7 +1,7 @@
 import React from "react";
 import propTyps from "prop-types";
 import ProgressBar from "progressbar.js";
-import playerStore from "components/Plyaer/store";
+import playerStore from "views/Player/store";
 import { connect } from "react-redux";
 // isPause 为当前状态，图标表示下一个状态
 class PlayBarCircleProgressBar extends React.PureComponent {
