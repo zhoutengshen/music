@@ -93,6 +93,11 @@ class AudioPlayer extends React.PureComponent {
     }
     //当前播放时间发生改变将回调该函数
     onTimeupdate = () => {
+        const { onTimeupdate } = this.props;
+        if (onTimeupdate) {
+            const { duration, currentTime } = this.audioRef.current;
+            onTimeupdate({ currentTime, duration })
+        }
     }
     componentDidMount() {
         this.audioRef.current.addEventListener("ended", this.onEnded);

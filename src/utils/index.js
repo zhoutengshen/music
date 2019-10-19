@@ -116,4 +116,20 @@ export const remToPx = (() => {
 
     }
 })();
+//将秒转化为标准时分秒
+export const timeConverse = (second) => {
+    second = Math.round(second);
+    if (second < 60) {
+        return `0 : ${second >= 10 ? second : '0' + second}`;
+    } else if (second < 60 * 60) {
+        const minute = second / 60 | 0;
+        return minute + " : " + ((second % 60) >= 10 ? (second % 60) : '0' + (second % 60));
+    } else if (second < 60 * 60 * 24) {
+        let hour = second / 60 / 60 | 0;
+        let minute = second / 60 % 60;
+        let secondRest = second / 60 / 60 % 60;
+        hour = secondRest >= 10 ? secondRest : '0' + secondRest;
+        return `${hour} : ${minute} : ${secondRest}`;
+    }
+}
 

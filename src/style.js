@@ -88,18 +88,18 @@ html,body{
 
 .fade-enter, .fade-appear{
         opacity:0;
-    }
-    .fade-enter-active, .fade-appear-active{
+}
+.fade-enter-active, .fade-appear-active{
         transition: all .2s;
         opacity:1;
-    }
-    .fade-exit{
+}
+.fade-exit{
         opacity:1;
-    }
-    .fade-exit-active{
+}
+.fade-exit-active{
         transition: all .2s;
 
         opacity:0;
-    }
+}
 
 `;

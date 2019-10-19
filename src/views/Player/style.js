@@ -10,18 +10,21 @@ export const ImgCover = styled.div`
     left: 0;
     background:${({ backgroundCoverUrl }) => "url(" + backgroundCoverUrl + ")"};
     background-size: cover;
-    filter: blur(60px) sepia(100%);
+    filter: blur(200px);
 `;
 
 export const PlayerWraper = styled.div``;
 
+
 export const FullSceenPlayerWraper = styled.div`
     position:fixed;
+    display:flex;
+    flex-direction:column;
     top:0;
     height:100vh;
     width:100vw;
     background:#999;
-    z-index:1;
+    z-index: 1000;
 
     .top-bar{
         display:flex;
@@ -29,12 +32,14 @@ export const FullSceenPlayerWraper = styled.div`
         top: 0;
         left: 0;
         align-items: center;
-        height:5rem;
+        height:8rem;
         padding:0 0.8rem;
         box-sizing: border-box;
         justify-content:space-around;
         z-index:3;
         color:#fff;
+        background:linear-gradient(0, transparent,rgba(0,0,0,0.5));
+        padding-bottom:3rem;
         & .iconfont{
             font-size:25px;
         }
@@ -70,6 +75,7 @@ export const FullSceenPlayerWraper = styled.div`
 
     .record{
         position:relative;
+        flex:1;
         height:calc(100vh - 23rem);
         z-index:1;
         .mid{
@@ -93,31 +99,35 @@ export const FullSceenPlayerWraper = styled.div`
             }
         }
     }
-
-    .tool-bar{
-        position: relative;
-        display:flex;
-        justify-content:space-around;
-        align-items:center;
-        height:6rem;
+    .buttom-bg{
         box-sizing:border-box;
-        padding: 0.8rem 0;
-        z-index:2;
-        a{
-            color:#fff;
-            text-decoration:none;
+        padding-top:4rem;
+        background:linear-gradient(0, rgba(0,0,0,0.5),transparent);
+        .tool-bar{
+            position: relative;
             display:flex;
-            flex-direction:column;
-            justify-content:center;
+            justify-content:space-around;
             align-items:center;
-            span{
-                font-size:1rem;
-            }
+            height:6rem;
+            box-sizing:border-box;
+            padding: 0.8rem 0;
+            z-index:2;
+            a{
+                color:#fff;
+                text-decoration:none;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
+                span{
+                    font-size:1rem;
+                }
 
-        }
-        .iconfont{
-            font-size:2.5rem;
-            margin-bottom:0.4rem;
+            }
+            .iconfont{
+                font-size:2.5rem;
+                margin-bottom:0.4rem;
+            }
         }
     }
     

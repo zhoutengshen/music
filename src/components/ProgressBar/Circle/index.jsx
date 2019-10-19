@@ -1,10 +1,7 @@
 import React from "react";
 import propTyps from "prop-types";
 import ProgressBar from "progressbar.js";
-import playerStore from "views/Player/store";
-import { connect } from "react-redux";
-// isPause 为当前状态，图标表示下一个状态
-class PlayBarCircleProgressBar extends React.PureComponent {
+export default class PlayBarCircleProgressBar extends React.PureComponent {
     static defaultProps = {
         strokeWidth: 7,
         trailColor: "#ccc",
@@ -41,9 +38,6 @@ class PlayBarCircleProgressBar extends React.PureComponent {
         };
         const { strokeWidth, trailColor, trailWidth, easing, color } = this.props;
         this.circle = new ProgressBar.Circle(this.ref, { strokeWidth, color, trailColor, trailWidth, easing, text: textConfig });
-        if (isPause) {
-            this.circle.stop();
-        }
     }
     changeIconStyle = () => {
         const { isPause } = this.props;
@@ -57,37 +51,15 @@ class PlayBarCircleProgressBar extends React.PureComponent {
             circle.text.style.marginLeft = "0.15rem";
             circle.stop();
         } else {
-            const songTimeInfo = this.props.songTimeInfo.toJS();
-            const { currentTime, duration } = songTimeInfo;
+            const { currentTime, duration } = this.props;
             circle.set(currentTime / duration);
             circle.text.style.marginLeft = "0";
         }
     }
-    playOrPauseHandle = () => {
-        const { isPause, playOrPauseFunc } = this.props;
-        playOrPauseFunc(isPause);
-    }
     render() {
-        const { playOrPauseHandle, changeIconStyle } = this;
+        const { onClick } = this.props;
+        const { changeIconStyle } = this;
         changeIconStyle();
-        return <div onClick={playOrPauseHandle} className="progress-bar" ref={el => this.ref = el} />
+        return <div className="progress-bar" ref={el => this.ref = el} onClick={onClick} />
     }
 }
-
-//Redux
-const mapStateToProps = (state) => {
-    const { player } = state;
-    return {
-        isPause: player.get("pause"),
-        songTimeInfo: player.get("songTimeInfo")
-    }
-}
-const mapDispatchToProps = (dispatch) => {
-    const { actions } = playerStore;
-    return {
-        playOrPauseFunc(isPause) {
-            return isPause ? dispatch(actions.playAction()) : dispatch(actions.pauseAction());
-        }
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(PlayBarCircleProgressBar);
