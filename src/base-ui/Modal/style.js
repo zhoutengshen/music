@@ -6,5 +6,6 @@ export const ModalWraper = styled.div`
     left:0;
     right:0;
     bottom:0;
-    z-index:${Number.MAX_SAFE_INTEGER}
+    z-index:1002;
+    background:rgba(0,0,0,0.5);
 `;

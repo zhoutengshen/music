@@ -42,6 +42,7 @@ export const PlaySongListWraper = styled.div`
     border-radius:2rem 2rem 0 0;
     width:100vw;
     -webkit-overflow-scrolling: touch;
+    z-index:${Number.MAX_SAFE_INTEGER}
 `;
 
 export const HeaderWraper = styled.div`

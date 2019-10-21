@@ -1,11 +1,5 @@
 import React from "react";
-const PLAY_MODE = {
-    normal: "normal",
-    listLoop: "listLoop",
-    random: "random",
-    singleLoop: "singleLoop"
-}
-
+import { PLAY_MODE } from "../constants";
 const options = {
     mode: "normal",//loop,random
     muted: false,

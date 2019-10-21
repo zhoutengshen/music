@@ -2,7 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { ModalWraper } from "./style";
 const Modal = React.forwardRef((props, ref) => {
-    let { el, children, onClick, style } = props;
+    let { el, children, onClick, show, style } = props;
+    style = {
+        style,
+        display: show ? '' : 'none'
+    }
     if (!el && document) {
         if (!document.getElementById("portalModalId")) {
             el = document.createElement('div');

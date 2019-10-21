@@ -60,7 +60,7 @@ export default class PlayBarCircleProgressBar extends React.PureComponent {
         return <LineWraper>
             <i className="current-time">{timeConverse(currentTime)}</i>
             <div id="line-progress" className="progress" ref={el => this.ref = el} ><label style={{ left: dotOffset }} className="dot" ref={el => this.dot = el}></label></div>
-            <i className="duration">{timeConverse(duration)}</i>
+            <i className="duration">{timeConverse(duration) || "0 : 00"}</i>
         </LineWraper>
     }
 }

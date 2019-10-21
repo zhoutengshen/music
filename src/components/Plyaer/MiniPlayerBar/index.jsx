@@ -1,9 +1,8 @@
 import React, { memo } from "react";
 import { PlayerBarWraper } from "./style";
 import PlayBarLyrics from "components/Lyrics/Mini";
-import PlaySongList from "components/Popover/PlaySongList";
 const PlayerBar = (props) => {
-    const { onShowList, onFullScreen, onPause } = props;
+    const { onShowList, onFullScreen } = props;
     let { picUrl, songAlia, songName, fullScreen, children } = props;
     let isShowBar = picUrl && songName;
     songAlia = songAlia ? ` (${songAlia}) ` : songAlia;
@@ -23,7 +22,6 @@ const PlayerBar = (props) => {
             }
             <i className="play-list iconfont iconplay-list" onClick={onShowList}></i>
         </div>
-        <PlaySongList />
     </PlayerBarWraper> : null;
 }
 
