@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import ReactList from "react-list";
+import Scroll from "base-ui/Scroll";
 import { PlaySongListItemWraper, PlaySongListWraper, HeaderWraper } from "./style";
 const PlaySongListItem = (props) => {
     const { isSelect, song, clickItem } = props;
@@ -24,28 +24,24 @@ const PlaySongList = (props) => {
     let { playList, currentPlayingSongId, showList } = props;
     playList = playList.toJS();
     return <PlaySongListWraper style={{ overflow: 'auto', display: showList ? '' : 'none' }}>
-        <HeaderWraper>
-            <section className="left">
-                <i className="iconfont iconloop"></i>
-                <span className="disc">循环列表({playList.length})</span>
-            </section>
-            <section className="right">
-                <i className="iconfont iconshoucang"></i>
-                <span className="disc">全部收藏</span>
-                <i className="iconfont icondelete"></i>
-            </section>
-        </HeaderWraper>
-        {/* 无限滚动方案 */}
-        <ReactList
-            type="uniform"
-            itemRenderer={(index) => {
-                const song = playList[index];
-                // clickItem 每次都会接受一个新的函数，但是由于memo指定了更新策略，MemoPlaySongListItem不会受clickItem函数的影响
-                return <MemoPlaySongListItem key={song.songId} clickItem={() => { clickItem(song) }} song={song} isSelect={song.songId === currentPlayingSongId} />
-            }}
-            length={playList.length}
-        >
-        </ReactList>
+        <Scroll height="65vh">
+            <HeaderWraper>
+                <section className="left">
+                    <i className="iconfont iconloop"></i>
+                    <span className="disc">循环列表({playList.length})</span>
+                </section>
+                <section className="right">
+                    <i className="iconfont iconshoucang"></i>
+                    <span className="disc">全部收藏</span>
+                    <i className="iconfont icondelete"></i>
+                </section>
+            </HeaderWraper>
+            <Scroll height="calc(65vh - 4rem)" bounce={false}>
+                {
+                    playList.map(song => <MemoPlaySongListItem key={song.songId} clickItem={() => { clickItem(song) }} song={song} isSelect={song.songId === currentPlayingSongId} />)
+                }
+            </Scroll>
+        </Scroll>
     </PlaySongListWraper>
 }
 export default PlaySongList;

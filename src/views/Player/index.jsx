@@ -140,7 +140,7 @@ class Player extends React.Component {
                 onShowList={this.showPlayListHandle}
             >
                 <PlayBarCircleProgressBar
-                    onShowList={this.changeSongHandle}
+                    onClick={this.playStatusChangeHandle}
                     {...{ currentTime, duration, isPause }}
                 />
             </MiniPlayerBar>
